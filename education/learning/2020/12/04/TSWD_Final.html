@@ -4,7 +4,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
-<title>Telling Stories with Data - Final Project | fastpages</title>
+<title>Telling Stories with Data - Final Project | fastblog</title>
 <meta name="generator" content="Jekyll v4.1.1" />
 <meta property="og:title" content="Telling Stories with Data - Final Project" />
 <meta name="author" content="Manikya Bardhan" />
@@ -13,14 +13,14 @@
 <meta property="og:description" content="Awesome summary" />
 <link rel="canonical" href="https://manikyabard.github.io/fastblog/education/learning/2020/12/04/TSWD_Final.html" />
 <meta property="og:url" content="https://manikyabard.github.io/fastblog/education/learning/2020/12/04/TSWD_Final.html" />
-<meta property="og:site_name" content="fastpages" />
+<meta property="og:site_name" content="fastblog" />
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2020-12-04T00:00:00-06:00" />
 <script type="application/ld+json">
 {"description":"Awesome summary","url":"https://manikyabard.github.io/fastblog/education/learning/2020/12/04/TSWD_Final.html","@type":"BlogPosting","headline":"Telling Stories with Data - Final Project","dateModified":"2020-12-04T00:00:00-06:00","datePublished":"2020-12-04T00:00:00-06:00","author":{"@type":"Person","name":"Manikya Bardhan"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://manikyabard.github.io/fastblog/education/learning/2020/12/04/TSWD_Final.html"},"@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
-<link rel="stylesheet" href="/fastblog/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://manikyabard.github.io/fastblog/feed.xml" title="fastpages" /><link rel="shortcut icon" type="image/x-icon" href="/fastblog/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+<link rel="stylesheet" href="/fastblog/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://manikyabard.github.io/fastblog/feed.xml" title="fastblog" /><link rel="shortcut icon" type="image/x-icon" href="/fastblog/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" /><script src="https://hypothes.is/embed.js" async></script>
 
 <script>
 function wrap_img(fn) {
@@ -54,7 +54,7 @@ window.onload = wrap_img;
 </head>
 <body><header class="site-header">
 
-  <div class="wrapper"><a class="site-title" rel="author" href="/fastblog/">fastpages</a><nav class="site-nav">
+  <div class="wrapper"><a class="site-title" rel="author" href="/fastblog/">fastblog</a><nav class="site-nav">
         <input type="checkbox" id="nav-trigger" class="nav-trigger" />
         <label for="nav-trigger">
           <span class="menu-icon">
@@ -80,7 +80,7 @@ window.onload = wrap_img;
        • <span class="read-time" title="Estimated read time">
     
     
-      16 min read
+      8 min read
     
 </span></p>
 
@@ -108,6 +108,7 @@ window.onload = wrap_img;
 <li class="toc-entry toc-h3"><a href="#Benefits-of-SEL">Benefits of SEL </a></li>
 <li class="toc-entry toc-h3"><a href="#A-preview-of-the-survey-data.">A preview of the survey data. </a></li>
 <li class="toc-entry toc-h3"><a href="#Dendrogram">Dendrogram </a></li>
+<li class="toc-entry toc-h3"><a href="#Clustering-Output">Clustering Output </a></li>
 </ul>
 </li>
 </ul><!--
@@ -119,352 +120,6 @@ window.onload = wrap_img;
 
 <div class="container" id="notebook-container">
         
-    
-    
-<div class="cell border-box-sizing code_cell rendered">
-<details class="description">
-      <summary class="btn btn-sm" data-open="Hide Code" data-close="Show Code"></summary>
-        <p></p>
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">'final_analysis.csv'</span><span class="p">)</span>
-<span class="n">df</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-    </details>
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-<div class="output_html rendered_html output_subarea output_execute_result">
-<div>
-<style scoped="">
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>Unnamed: 0</th>
-      <th>Q2Num_Age</th>
-      <th>Q3B_Gender</th>
-      <th>Q6Num_How many members are there in your household? ( Include Grandparents, Aunts, Uncles, Cousins, Sisters-in-law, Nephews, Nieces, Siblings, etc., if they are living with you or next door to you. example: 2.0)</th>
-      <th>Q7B_Are you the only child?</th>
-      <th>Q8B_Are you the oldest child?</th>
-      <th>Q9B_Are you the youngest child?</th>
-      <th>Q10B_Do you have any pets?</th>
-      <th>Q11F_Say, you are playing a fierce game of badminton with your friends. Your mother keeps calling you from the balcony, asking you to come home and have your dinner. What will you do?</th>
-      <th>Q12Lns_Approximately how many people, whom you once knew well, do you now avoid, no longer meet, invite, or talk to? (Include anyone you have blocked on your Phone, Whatsapp, Facebook, Instagram, etc.)</th>
-      <th>...</th>
-      <th>Q48T_You ve just heard that your younger sibling (or closest friend) has not done well in an important exam. What would you do about this?</th>
-      <th>Q49V1-5_How often do you laugh at yourself or make jokes on yourself to make others around you laugh or reduce tension in the environment?</th>
-      <th>Q50V1-4_Does humor come to you spontaneously as a natural part of you?</th>
-      <th>Q51T_Everyday during commute, you see people violating traffic rules at a particular signal, and the cop there taking bribe and never managing the traffic. You have heard a lot about the entire system being corrupt. All this does not match the India of your dreams, and it saddens you. Looking at your past, what do you think you do in such a situation?</th>
-      <th>Q52V1-4_When you have a 1-hour homework, how many breaks do you take?</th>
-      <th>Q53V0-4_Are you generally happy?</th>
-      <th>Q54V0-3_Are you always on time in reaching school, tuition, party etc?</th>
-      <th>Positive(Sentimental analysis)</th>
-      <th>Neutral(Sentimental analysis)</th>
-      <th>Negative(Sentimental analysis)</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>0</td>
-      <td>15</td>
-      <td>1</td>
-      <td>4</td>
-      <td>0</td>
-      <td>1</td>
-      <td>0</td>
-      <td>0</td>
-      <td>2</td>
-      <td>1.791759</td>
-      <td>...</td>
-      <td>0</td>
-      <td>4</td>
-      <td>1</td>
-      <td>-1</td>
-      <td>2</td>
-      <td>0</td>
-      <td>0</td>
-      <td>1.00</td>
-      <td>0.00</td>
-      <td>0.00</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>1</td>
-      <td>16</td>
-      <td>0</td>
-      <td>3</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>2</td>
-      <td>0.000000</td>
-      <td>...</td>
-      <td>-1</td>
-      <td>2</td>
-      <td>4</td>
-      <td>-1</td>
-      <td>1</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0.99</td>
-      <td>0.01</td>
-      <td>0.00</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>2</td>
-      <td>18</td>
-      <td>1</td>
-      <td>8</td>
-      <td>0</td>
-      <td>1</td>
-      <td>0</td>
-      <td>0</td>
-      <td>2</td>
-      <td>0.000000</td>
-      <td>...</td>
-      <td>-1</td>
-      <td>1</td>
-      <td>2</td>
-      <td>0</td>
-      <td>4</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0.09</td>
-      <td>0.90</td>
-      <td>0.01</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>3</td>
-      <td>19</td>
-      <td>1</td>
-      <td>4</td>
-      <td>0</td>
-      <td>1</td>
-      <td>0</td>
-      <td>0</td>
-      <td>2</td>
-      <td>0.000000</td>
-      <td>...</td>
-      <td>-1</td>
-      <td>4</td>
-      <td>4</td>
-      <td>-1</td>
-      <td>3</td>
-      <td>1</td>
-      <td>2</td>
-      <td>1.00</td>
-      <td>0.00</td>
-      <td>0.00</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>4</td>
-      <td>19</td>
-      <td>0</td>
-      <td>4</td>
-      <td>0</td>
-      <td>1</td>
-      <td>1</td>
-      <td>1</td>
-      <td>2</td>
-      <td>3.401197</td>
-      <td>...</td>
-      <td>1</td>
-      <td>1</td>
-      <td>1</td>
-      <td>1</td>
-      <td>3</td>
-      <td>3</td>
-      <td>3</td>
-      <td>1.00</td>
-      <td>0.00</td>
-      <td>0.00</td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-    </tr>
-    <tr>
-      <th>298</th>
-      <td>298</td>
-      <td>16</td>
-      <td>0</td>
-      <td>3</td>
-      <td>1</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>-1</td>
-      <td>0.693147</td>
-      <td>...</td>
-      <td>-1</td>
-      <td>5</td>
-      <td>4</td>
-      <td>1</td>
-      <td>4</td>
-      <td>0</td>
-      <td>3</td>
-      <td>0.97</td>
-      <td>0.03</td>
-      <td>0.00</td>
-    </tr>
-    <tr>
-      <th>299</th>
-      <td>299</td>
-      <td>21</td>
-      <td>1</td>
-      <td>1</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>2</td>
-      <td>0.000000</td>
-      <td>...</td>
-      <td>0</td>
-      <td>5</td>
-      <td>1</td>
-      <td>1</td>
-      <td>1</td>
-      <td>4</td>
-      <td>2</td>
-      <td>0.01</td>
-      <td>0.76</td>
-      <td>0.23</td>
-    </tr>
-    <tr>
-      <th>300</th>
-      <td>300</td>
-      <td>14</td>
-      <td>0</td>
-      <td>4</td>
-      <td>0</td>
-      <td>1</td>
-      <td>0</td>
-      <td>0</td>
-      <td>2</td>
-      <td>0.000000</td>
-      <td>...</td>
-      <td>-1</td>
-      <td>5</td>
-      <td>4</td>
-      <td>1</td>
-      <td>4</td>
-      <td>2</td>
-      <td>3</td>
-      <td>0.72</td>
-      <td>0.07</td>
-      <td>0.21</td>
-    </tr>
-    <tr>
-      <th>301</th>
-      <td>301</td>
-      <td>14</td>
-      <td>0</td>
-      <td>6</td>
-      <td>0</td>
-      <td>1</td>
-      <td>0</td>
-      <td>0</td>
-      <td>2</td>
-      <td>0.000000</td>
-      <td>...</td>
-      <td>-1</td>
-      <td>5</td>
-      <td>4</td>
-      <td>1</td>
-      <td>4</td>
-      <td>4</td>
-      <td>0</td>
-      <td>1.00</td>
-      <td>0.00</td>
-      <td>0.00</td>
-    </tr>
-    <tr>
-      <th>302</th>
-      <td>302</td>
-      <td>13</td>
-      <td>1</td>
-      <td>3</td>
-      <td>1</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>-1</td>
-      <td>0.000000</td>
-      <td>...</td>
-      <td>1</td>
-      <td>5</td>
-      <td>1</td>
-      <td>1</td>
-      <td>1</td>
-      <td>1</td>
-      <td>3</td>
-      <td>1.00</td>
-      <td>0.00</td>
-      <td>0.00</td>
-    </tr>
-  </tbody>
-</table>
-<p>303 rows × 54 columns</p>
-</div>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-    
-
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
@@ -503,6 +158,8 @@ window.onload = wrap_img;
 <h3 id="A-preview-of-the-survey-data.">
 <a class="anchor" href="#A-preview-of-the-survey-data." aria-hidden="true"><span class="octicon octicon-link"></span></a>A preview of the survey data.<a class="anchor-link" href="#A-preview-of-the-survey-data."> </a>
 </h3>
+<p>The columns refer to the questions in the servey.</p>
+
 </div>
 </div>
 </div>
@@ -898,102 +555,55 @@ window.onload = wrap_img;
 </div>
     
 
-    
-    
-<div class="cell border-box-sizing code_cell rendered">
-<details class="description">
-      <summary class="btn btn-sm" data-open="Hide Code" data-close="Show Code"></summary>
-        <p></p>
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># List of the Survey Questions</span>
-<span class="nb">list</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-    </details>
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>['Q2Num_Age',
- 'Q3B_Gender',
- 'Q6Num_How many members are there in your household? ( Include Grandparents, Aunts, Uncles, Cousins, Sisters-in-law, Nephews, Nieces, Siblings, etc., if they are living with you or next door to you. example: 2.0)',
- 'Q7B_Are you the only child?',
- 'Q8B_Are you the oldest child?',
- 'Q9B_Are you the youngest child?',
- 'Q10B_Do you have any pets?',
- 'Q11F_Say, you are playing a fierce game of badminton with your friends. Your mother keeps calling you from the balcony, asking you to come home and have your dinner. What will you do?',
- 'Q12Lns_Approximately how many people, whom you once knew well, do you now avoid, no longer meet, invite, or talk to? (Include anyone you have blocked on your Phone, Whatsapp, Facebook, Instagram, etc.)',
- 'Q13B_In the last three years, how many good friends have you made? ( don t include classmates, acquaintances you are not close to. )',
- 'Q14V1-5_How often have your parents discussed with you, your marks / school work / University subjects?',
- 'Q15B_Say during an exam, you momentarily show your answer sheet to a struggling friend. Your teacher decides to punish both of you. You and your friend are asked to bring your parents to School. What would you do in such a situation?',
- 'Q16T_How often do you check your social media?',
- 'Q17F_ I can easily tell how others are feeling.  How strongly do you agree with this statement?',
- 'Q18B_Say a popular group of boys and girls from your School or College are angry at your friend. Incidentally you are invited to a house party thrown by this group, but your friend is not invited. What do you usually do in such a situation?',
- 'Q19F_ When a best friend is angry, I feel angry too and take my best friend s side.  How strongly do you agree with this statement?',
- 'Q20T_Say you move into a new high-rise apartment with a lot of amenities, like gym, swimming pool, clubhouses and you socialize with a few people. You hear gossip against a certain boy called Rohit, stating that he s not very popular amongst them. What would your approach be pertaining to Rohit?',
- 'Q21V1-5_Which of these statements is true?',
- 'Q22B_Which of the following statements best describes you the night before the exam?',
- 'Q23V0-4_After a failure/setback what do you do?',
- 'Q24V1-5_In general, do you ask a lot of questions. How many? ( Googling, asking friends, parents or teachers)',
- 'Q25V1-3_You are stuck on some level of competency on a new project. For example, you cannot finish 25 push-ups, find the bug in code, or cross a difficult level on a video game. What do you usually do?',
- 'Q26T_Say a friendly scientist from ISRO visits your school and talks about India s own mars-rover satellite  Mangalyaan . He invites students to come on stage after the presentation, to look at the robot closely and ask questions one-on-one. However, if you don t leave before this seminar ends, you will miss the bus back home and will have to walk all the way. What will you do?',
- 'Q28B_Say you find an error in a study book that your Professor has asked you to refer. What will you do?',
- 'Q29T_You overslept and are late for a terrace-top social event. What will you do?',
- 'Q30V0-4_ I love public speaking, like in a classroom, Birthday party, Wedding, Team dinner, etc.  How strongly do you agree with this statement?',
- 'Q31B_Would you be friends with yourself?',
- 'Q32B_You have just overheard from your mother s conversation, that your bunch of school friends are planning to throw a surprise birthday party for you, at your home. They will arrive in about 10 minutes. What will you do?',
- 'Q33T_Looking at your past incidents, how have you dealt with people who pass insulting personal comments at you? (Say someone makes fun of your looks, or calls you a loser)',
- 'Q34V0-4_You get lower than expected grades.',
- 'Q35V0-4_You lie to your parents but your sibling (or another relative) catches you and is now threatening to tell your parents.',
- 'Q36V0-4_You are facing bullies at School/College',
- 'Q37V0-4_Your sibling is permanently leaving home to a far-off place for a job or college, etc.',
- 'Q38V0-4_Your pet is missing.',
- 'Q39V0-4_Over the last decade have you experienced strong fear that causes panic, shortness of breath, a pounding heart, sweating, shaking, or dizziness?',
- 'Q40V1-5_Are you able to control your restless mind from uninvited thoughts that unnecessarily slows you down?',
- 'Q41V1-5_How do you describe your physical activity level?',
- 'Q42V1-5_Around what time do you go to bed?',
- 'Q43T_How do you describe your quality of sleep?',
- 'Q44V1-4_Where did you grow up?',
- 'Q45B_If the Government can spend on only one of the following, which would you choose?',
- 'Q46V1-4_How close are you to nature?',
- 'Q47F_What is your view of the world today?',
- 'Q48T_You ve just heard that your younger sibling (or closest friend) has not done well in an important exam. What would you do about this?',
- 'Q49V1-5_How often do you laugh at yourself or make jokes on yourself to make others around you laugh or reduce tension in the environment?',
- 'Q50V1-4_Does humor come to you spontaneously as a natural part of you?',
- 'Q51T_Everyday during commute, you see people violating traffic rules at a particular signal, and the cop there taking bribe and never managing the traffic. You have heard a lot about the entire system being corrupt. All this does not match the India of your dreams, and it saddens you. Looking at your past, what do you think you do in such a situation?',
- 'Q52V1-4_When you have a 1-hour homework, how many breaks do you take?',
- 'Q53V0-4_Are you generally happy?',
- 'Q54V0-3_Are you always on time in reaching school, tuition, party etc?',
- 'Positive(Sentimental analysis) ',
- 'Neutral(Sentimental analysis)',
- 'Negative(Sentimental analysis)']</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-    
-
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="Dendrogram">
 <a class="anchor" href="#Dendrogram" aria-hidden="true"><span class="octicon octicon-link"></span></a>Dendrogram<a class="anchor-link" href="#Dendrogram"> </a>
 </h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The following plot has been created by using a method called <strong>hierarchial clustering</strong> on the data. It shows how the answers to the survey questions are related to each other.</p>
+<p>The diagram also has an attribute on the left side above each line, which refers to what the question signified. From this, it is possible to see which qualities are related to each other, and appeared together in this data.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><img src="/fastblog/images/copied_from_nb/my_icons/tswd_dendrogram.png" alt=""></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Clustering-Output">
+<a class="anchor" href="#Clustering-Output" aria-hidden="true"><span class="octicon octicon-link"></span></a>Clustering Output<a class="anchor-link" href="#Clustering-Output"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The following plot has been created by using a method called k-means clustering on the data after aggregating the data under different categories like "Anxiety", "Empathy", "Humour", etc. (These categories are mentioned on the right legend).</p>
+<p>The 4 clusters that were formed shows that in our survey data, these characteristics appeared together.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><img src="/fastblog/images/copied_from_nb/my_icons/tswd_clusters.png" alt=""></p>
+
 </div>
 </div>
 </div>
@@ -1028,11 +638,11 @@ window.onload = wrap_img;
         </p>
       </div>
       <div class="footer-col">
-        <p>An easy to use blogging platform with support for Jupyter Notebooks.</p>
+        <p>A quick blog with a bunch of random stuff.</p>
       </div>
     </div>
 
-    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/fastai" title="fastai"><svg class="svg-icon grey"><use xlink:href="/fastblog/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/fastdotai" title="fastdotai"><svg class="svg-icon grey"><use xlink:href="/fastblog/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/manikyabard" title="manikyabard"><svg class="svg-icon grey"><use xlink:href="/fastblog/assets/minima-social-icons.svg#github"></use></svg></a></li></ul>
 </div>
 
   </div>
