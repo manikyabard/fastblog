@@ -80,7 +80,7 @@ window.onload = wrap_img;
        • <span class="read-time" title="Estimated read time">
     
     
-      10 min read
+      15 min read
     
 </span></p>
 
@@ -188,7 +188,7 @@ window.onload = wrap_img;
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">display_all</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">display_all</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
 </pre></div>
 
     </div>
@@ -221,341 +221,347 @@ window.onload = wrap_img;
   <thead>
     <tr style="text-align: right;">
       <th></th>
-      <th>Q2Num_Age</th>
-      <th>Q3B_Gender</th>
-      <th>Q6Num_How many members are there in your household? ( Include Grandparents, Aunts, Uncles, Cousins, Sisters-in-law, Nephews, Nieces, Siblings, etc., if they are living with you or next door to you. example: 2.0)</th>
-      <th>Q7B_Are you the only child?</th>
-      <th>Q8B_Are you the oldest child?</th>
-      <th>Q9B_Are you the youngest child?</th>
-      <th>Q10B_Do you have any pets?</th>
-      <th>Q11F_Say, you are playing a fierce game of badminton with your friends. Your mother keeps calling you from the balcony, asking you to come home and have your dinner. What will you do?</th>
-      <th>Q12Lns_Approximately how many people, whom you once knew well, do you now avoid, no longer meet, invite, or talk to? (Include anyone you have blocked on your Phone, Whatsapp, Facebook, Instagram, etc.)</th>
-      <th>Q13B_In the last three years, how many good friends have you made? ( don t include classmates, acquaintances you are not close to. )</th>
-      <th>Q14V1-5_How often have your parents discussed with you, your marks / school work / University subjects?</th>
-      <th>Q15B_Say during an exam, you momentarily show your answer sheet to a struggling friend. Your teacher decides to punish both of you. You and your friend are asked to bring your parents to School. What would you do in such a situation?</th>
-      <th>Q16T_How often do you check your social media?</th>
-      <th>Q17F_ I can easily tell how others are feeling.  How strongly do you agree with this statement?</th>
-      <th>Q18B_Say a popular group of boys and girls from your School or College are angry at your friend. Incidentally you are invited to a house party thrown by this group, but your friend is not invited. What do you usually do in such a situation?</th>
-      <th>Q19F_ When a best friend is angry, I feel angry too and take my best friend s side.  How strongly do you agree with this statement?</th>
-      <th>Q20T_Say you move into a new high-rise apartment with a lot of amenities, like gym, swimming pool, clubhouses and you socialize with a few people. You hear gossip against a certain boy called Rohit, stating that he s not very popular amongst them. What would your approach be pertaining to Rohit?</th>
-      <th>Q21V1-5_Which of these statements is true?</th>
-      <th>Q22B_Which of the following statements best describes you the night before the exam?</th>
-      <th>Q23V0-4_After a failure/setback what do you do?</th>
-      <th>Q24V1-5_In general, do you ask a lot of questions. How many? ( Googling, asking friends, parents or teachers)</th>
-      <th>Q25V1-3_You are stuck on some level of competency on a new project. For example, you cannot finish 25 push-ups, find the bug in code, or cross a difficult level on a video game. What do you usually do?</th>
-      <th>Q26T_Say a friendly scientist from ISRO visits your school and talks about India s own mars-rover satellite  Mangalyaan . He invites students to come on stage after the presentation, to look at the robot closely and ask questions one-on-one. However, if you don t leave before this seminar ends, you will miss the bus back home and will have to walk all the way. What will you do?</th>
-      <th>Q28B_Say you find an error in a study book that your Professor has asked you to refer. What will you do?</th>
-      <th>Q29T_You overslept and are late for a terrace-top social event. What will you do?</th>
-      <th>Q30V0-4_ I love public speaking, like in a classroom, Birthday party, Wedding, Team dinner, etc.  How strongly do you agree with this statement?</th>
-      <th>Q31B_Would you be friends with yourself?</th>
-      <th>Q32B_You have just overheard from your mother s conversation, that your bunch of school friends are planning to throw a surprise birthday party for you, at your home. They will arrive in about 10 minutes. What will you do?</th>
-      <th>Q33T_Looking at your past incidents, how have you dealt with people who pass insulting personal comments at you? (Say someone makes fun of your looks, or calls you a loser)</th>
-      <th>Q34V0-4_You get lower than expected grades.</th>
-      <th>Q35V0-4_You lie to your parents but your sibling (or another relative) catches you and is now threatening to tell your parents.</th>
-      <th>Q36V0-4_You are facing bullies at School/College</th>
-      <th>Q37V0-4_Your sibling is permanently leaving home to a far-off place for a job or college, etc.</th>
-      <th>Q38V0-4_Your pet is missing.</th>
-      <th>Q39V0-4_Over the last decade have you experienced strong fear that causes panic, shortness of breath, a pounding heart, sweating, shaking, or dizziness?</th>
-      <th>Q40V1-5_Are you able to control your restless mind from uninvited thoughts that unnecessarily slows you down?</th>
-      <th>Q41V1-5_How do you describe your physical activity level?</th>
-      <th>Q42V1-5_Around what time do you go to bed?</th>
-      <th>Q43T_How do you describe your quality of sleep?</th>
-      <th>Q44V1-4_Where did you grow up?</th>
-      <th>Q45B_If the Government can spend on only one of the following, which would you choose?</th>
-      <th>Q46V1-4_How close are you to nature?</th>
-      <th>Q47F_What is your view of the world today?</th>
-      <th>Q48T_You ve just heard that your younger sibling (or closest friend) has not done well in an important exam. What would you do about this?</th>
-      <th>Q49V1-5_How often do you laugh at yourself or make jokes on yourself to make others around you laugh or reduce tension in the environment?</th>
-      <th>Q50V1-4_Does humor come to you spontaneously as a natural part of you?</th>
-      <th>Q51T_Everyday during commute, you see people violating traffic rules at a particular signal, and the cop there taking bribe and never managing the traffic. You have heard a lot about the entire system being corrupt. All this does not match the India of your dreams, and it saddens you. Looking at your past, what do you think you do in such a situation?</th>
-      <th>Q52V1-4_When you have a 1-hour homework, how many breaks do you take?</th>
-      <th>Q53V0-4_Are you generally happy?</th>
-      <th>Q54V0-3_Are you always on time in reaching school, tuition, party etc?</th>
-      <th>Positive(Sentimental analysis)</th>
-      <th>Neutral(Sentimental analysis)</th>
-      <th>Negative(Sentimental analysis)</th>
+      <th>Age</th>
+      <th>Gender</th>
+      <th>How are you feeling right now?</th>
+      <th>Why? What happened that is affecting your current mood?</th>
+      <th>How many members are there in your household? ( Include Grandparents, Aunts, Uncles, Cousins, Sisters-in-law, Nephews, Nieces, Siblings, etc., if they are living with you or next door to you.  example: 2.0)</th>
+      <th>Are you the only child?</th>
+      <th>Are you the oldest child?</th>
+      <th>Are you the youngest child?</th>
+      <th>Do you have any pets?</th>
+      <th>Say, you are playing a fierce game of badminton with your friends. Your mother keeps calling you from the balcony, asking you to come home and have your dinner. What will you do?</th>
+      <th>Approximately how many people, whom you once knew well, do you now avoid, no longer meet, invite, or talk to? (Include anyone you have blocked on your Phone, Whatsapp, Facebook, Instagram, etc.)</th>
+      <th>In the last three years, how many good friends have you made? ( don't include classmates, acquaintances you are not close to. )</th>
+      <th>How often have your parents discussed with you, your marks / school work / University subjects?</th>
+      <th>Say during an exam, you momentarily show your answer sheet to a struggling friend. Your teacher decides to punish both of you. You and your friend are asked to bring your parents to School. What would you do in such a situation?</th>
+      <th>How often do you check your social media?</th>
+      <th>"I can easily tell how others are feeling." \nHow strongly do you agree with this statement?</th>
+      <th>Say a popular group of boys and girls from your School or College are angry at your friend. Incidentally you are invited to a house party thrown by this group, but your friend is not invited. What do you usually do in such a situation?</th>
+      <th>"When a best friend is angry, I feel angry too and take my best friend’s side." \nHow strongly do you agree with this statement?</th>
+      <th>Say you move into a new high-rise apartment with a lot of amenities, like gym, swimming pool, clubhouses and you  socialize with a few people. You hear gossip against a certain boy called Rohit, stating that he's not very popular amongst them. What would your approach be pertaining to Rohit?</th>
+      <th>Which of these statements is true?</th>
+      <th>Which of the following statements best describes you the night before the exam?</th>
+      <th>After a failure/setback what do you do?</th>
+      <th>In general, do you ask a lot of questions. How many? ( Googling, asking friends, parents or teachers)</th>
+      <th>You are stuck on some level of competency on a new project. For example, you cannot finish 25 push-ups, find the bug in code, or cross a difficult level on a video game. What do you usually do?</th>
+      <th>Say a friendly scientist from ISRO visits your school and talks about India's own mars-rover satellite "Mangalyaan". He invites students to come on stage after the presentation, to look at the robot closely and ask questions one-on-one. However, if you don't leave before this seminar ends, you will miss the bus back home and will have to walk all the way. What will you do?</th>
+      <th>Are you self-taught in any of these skills?</th>
+      <th>Say you find an error in a study book that your Professor has asked you to refer. What will you do?</th>
+      <th>You overslept and are late for a terrace-top social event. What will you do?</th>
+      <th>"I love public speaking, like in a classroom, Birthday party, Wedding, Team dinner, etc."\n\r\nHow strongly do you agree with this statement?</th>
+      <th>Would you be friends with yourself?</th>
+      <th>You have just overheard from your mother’s conversation, that your bunch of school friends are planning to throw a surprise birthday party for you, at your home. They will arrive in about 10 minutes. What will you do?</th>
+      <th>Looking at your past incidents, how have you dealt with people who pass insulting personal comments at you? (Say someone makes fun of your looks, or calls you a loser)</th>
+      <th>You get lower than expected grades.</th>
+      <th>You lie to your parents but your sibling (or another relative) catches you and is now threatening to tell your parents.</th>
+      <th>You are facing bullies at School/College</th>
+      <th>Your sibling is permanently leaving home to a far-off place for a job or college, etc.</th>
+      <th>Your pet is missing.</th>
+      <th>Over the last decade have you experienced strong fear that causes panic, shortness of breath, a pounding heart, sweating, shaking, or dizziness?</th>
+      <th>Are you able to control your restless mind from uninvited thoughts that unnecessarily slows you down?</th>
+      <th>How do you describe your physical activity level?</th>
+      <th>Around what time do you go to bed?</th>
+      <th>How do you describe your quality of sleep?</th>
+      <th>Where did you grow up?</th>
+      <th>If the Government can spend on only one of the following, which would you choose?</th>
+      <th>How close are you to nature?</th>
+      <th>What is your view of the world today?</th>
+      <th>You've just heard that your younger sibling (or closest friend) has not done well in an important exam. What would you do about this?</th>
+      <th>How often do you laugh at yourself or make jokes on yourself to make others around you laugh or reduce tension in the environment?</th>
+      <th>Does humor come to you spontaneously as a natural part of you?</th>
+      <th>Everyday during commute, you see people violating traffic rules at a particular signal, and the cop there taking bribe and never managing the traffic. You have heard a lot about the entire system being corrupt. All this does not match the India of your dreams, and it saddens you. Looking at your past, what do you think you do in such a situation?</th>
+      <th>When you have a 1-hour homework, how many breaks do you take?</th>
+      <th>Are you generally happy?</th>
+      <th>Are you always on time in reaching school, tuition, party etc?</th>
+      <th>Describe your childhood by choosing 10 words or you can form 5 sentences.</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <th>0</th>
       <td>15</td>
-      <td>1</td>
+      <td>Male</td>
+      <td>Happy / Excited</td>
+      <td>Its holiday</td>
       <td>4</td>
-      <td>0</td>
-      <td>1</td>
-      <td>0</td>
-      <td>0</td>
-      <td>2</td>
-      <td>1.791759</td>
-      <td>0</td>
-      <td>1</td>
-      <td>1</td>
-      <td>1</td>
-      <td>-1</td>
-      <td>0</td>
-      <td>-1</td>
-      <td>0</td>
-      <td>2</td>
-      <td>1</td>
-      <td>0</td>
+      <td>No</td>
+      <td>Yes</td>
+      <td>No</td>
+      <td>False</td>
+      <td>You affectionately tell your mother, that you ...</td>
+      <td>6</td>
+      <td>Hardly any</td>
+      <td>Constantly</td>
+      <td>Speak to your parents and explain the situatio...</td>
+      <td>I don't have social media</td>
+      <td>Disagree</td>
+      <td>I will not go and not discuss this incident wi...</td>
+      <td>Disagree</td>
+      <td>Meet Rohit to find out what is so bad about him</td>
+      <td>I'm happy even with a First Class</td>
+      <td>I stay up late and revise through the night.</td>
+      <td>I fight harder to reverse the situation, even ...</td>
+      <td>Very few</td>
+      <td>I will give myself a break and surely try agai...</td>
+      <td>You will save the email of the scientist as sh...</td>
+      <td>Riding bicycle</td>
+      <td>I will immediately correct the literature with...</td>
+      <td>I will freshen, do my hair, wear my new dress ...</td>
+      <td>Neutral</td>
+      <td>Certainly yes</td>
+      <td>You tidy up your room, clean the restrooms,  f...</td>
+      <td>It affects me very deeply, I take a long while...</td>
       <td>5</td>
-      <td>3</td>
       <td>1</td>
-      <td>0</td>
-      <td>1</td>
-      <td>2</td>
-      <td>1</td>
-      <td>0</td>
-      <td>-1</td>
-      <td>2</td>
-      <td>0</td>
-      <td>3</td>
+      <td>7</td>
       <td>0</td>
       <td>0</td>
-      <td>0</td>
-      <td>3</td>
-      <td>2</td>
-      <td>2</td>
-      <td>-1</td>
-      <td>2</td>
-      <td>0</td>
-      <td>1</td>
-      <td>-2</td>
-      <td>0</td>
-      <td>4</td>
-      <td>1</td>
-      <td>-1</td>
-      <td>2</td>
-      <td>0</td>
-      <td>0</td>
-      <td>1.00</td>
-      <td>0.00</td>
-      <td>0.00</td>
+      <td>Never</td>
+      <td>Rarely</td>
+      <td>Low</td>
+      <td>11 PM</td>
+      <td>Average</td>
+      <td>Tier 2</td>
+      <td>Preserving the environment</td>
+      <td>Frequently close with nature</td>
+      <td>It is beautiful with many exciting opportuniti...</td>
+      <td>Lighten their mood by asking them to party wit...</td>
+      <td>Many</td>
+      <td>I am usually mischievous, and humor doesn’t le...</td>
+      <td>approach the cop and appeal to him/her peacefully</td>
+      <td>A break every 15 minutes</td>
+      <td>I am generally calm, peaceful and happy all th...</td>
+      <td>Always on time</td>
+      <td>I was a friendly and joyful guy</td>
     </tr>
     <tr>
       <th>1</th>
       <td>16</td>
+      <td>Female</td>
+      <td>Calm / Peaceful</td>
+      <td>Corona</td>
+      <td>12</td>
+      <td>No</td>
+      <td>No</td>
+      <td>No</td>
+      <td>False</td>
+      <td>You affectionately tell your mother, that you ...</td>
       <td>0</td>
-      <td>3</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>2</td>
-      <td>0.000000</td>
-      <td>0</td>
-      <td>1</td>
-      <td>1</td>
-      <td>-1</td>
-      <td>-2</td>
-      <td>0</td>
-      <td>-1</td>
-      <td>1</td>
-      <td>3</td>
-      <td>0</td>
-      <td>0</td>
-      <td>5</td>
-      <td>1</td>
-      <td>1</td>
-      <td>1</td>
-      <td>1</td>
-      <td>1</td>
-      <td>1</td>
-      <td>1</td>
-      <td>0</td>
-      <td>1</td>
-      <td>2</td>
+      <td>Hardly any</td>
+      <td>Constantly</td>
+      <td>Speak to your parents and explain the situatio...</td>
+      <td>Once in three hours</td>
+      <td>Agree</td>
+      <td>I will not go and not discuss this incident wi...</td>
+      <td>Disagree</td>
+      <td>Take the initiative to help Rohit make friends...</td>
+      <td>I'm happy even with finishing exams</td>
+      <td>I sleep early and revise in the morning.</td>
+      <td>I fight harder to reverse the situation, even ...</td>
+      <td>Very few</td>
+      <td>I don’t give up easily. I will push myself unt...</td>
+      <td>You will stay back to see the satellite at clo...</td>
+      <td>Riding bicycle</td>
+      <td>I will ignore my thoughts and trust the experi...</td>
+      <td>I will freshen, do my hair, wear my new dress ...</td>
+      <td>Disagree</td>
+      <td>Certainly yes</td>
+      <td>You skip freshening up, skip  cleaning up the ...</td>
+      <td>I ignore and avoid such people</td>
       <td>4</td>
-      <td>4</td>
-      <td>4</td>
-      <td>0</td>
-      <td>4</td>
-      <td>1</td>
-      <td>1</td>
-      <td>1</td>
-      <td>2</td>
-      <td>0</td>
-      <td>4</td>
-      <td>-1</td>
-      <td>-1</td>
-      <td>2</td>
-      <td>4</td>
-      <td>-1</td>
-      <td>1</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0.99</td>
-      <td>0.01</td>
-      <td>0.00</td>
+      <td>6</td>
+      <td>9</td>
+      <td>10</td>
+      <td>9</td>
+      <td>Never</td>
+      <td>Sometimes</td>
+      <td>High</td>
+      <td>10 PM</td>
+      <td>Poor</td>
+      <td>Tier 2</td>
+      <td>Preserving the environment</td>
+      <td>Sometimes close with nature</td>
+      <td>It is becoming very selfish, dangerous and hop...</td>
+      <td>Be with them for as long as they want your com...</td>
+      <td>A few</td>
+      <td>Sometimes, I get humorous thoughts and it make...</td>
+      <td>approach the cop and appeal to him/her peacefully</td>
+      <td>A break after 30 minutes</td>
+      <td>I am generally calm, peaceful and happy all th...</td>
+      <td>Always on time</td>
+      <td>Beautifully</td>
     </tr>
     <tr>
       <th>2</th>
       <td>18</td>
-      <td>1</td>
+      <td>Male</td>
+      <td>Calm / Peaceful</td>
+      <td>Nothing.</td>
       <td>8</td>
+      <td>No</td>
+      <td>Yes</td>
+      <td>No</td>
+      <td>False</td>
+      <td>You affectionately tell your mother, that you ...</td>
       <td>0</td>
-      <td>1</td>
-      <td>0</td>
-      <td>0</td>
-      <td>2</td>
-      <td>0.000000</td>
-      <td>1</td>
+      <td>Some</td>
+      <td>Often</td>
+      <td>Speak to your parents and explain the situatio...</td>
+      <td>Once in hour</td>
+      <td>Strongly Agree</td>
+      <td>I will not go and instead spend the evening wi...</td>
+      <td>Neutral</td>
+      <td>Ignore the information and treat Rohit like yo...</td>
+      <td>I'm happy even with a Distinction</td>
+      <td>I sleep on time, wake up as usual and go for t...</td>
+      <td>I keep moving.</td>
+      <td>Many</td>
+      <td>I don’t give up easily. I will push myself unt...</td>
+      <td>You will stay back to see the satellite at clo...</td>
+      <td>Riding bicycle, Cooking</td>
+      <td>I will Google, ask a friend or reach out to th...</td>
+      <td>I will leave only after I shower and ensure th...</td>
+      <td>Strongly Disagree</td>
+      <td>Certainly yes</td>
+      <td>You attended to grandpa's usual call as you wa...</td>
+      <td>I slam back with equally strong remarks.</td>
       <td>3</td>
-      <td>1</td>
-      <td>-1</td>
-      <td>1</td>
-      <td>0</td>
-      <td>0</td>
-      <td>-1</td>
-      <td>1</td>
-      <td>0</td>
-      <td>1</td>
-      <td>3</td>
-      <td>1</td>
-      <td>1</td>
-      <td>0</td>
-      <td>0</td>
       <td>4</td>
-      <td>1</td>
-      <td>1</td>
-      <td>-1</td>
-      <td>1</td>
-      <td>1</td>
-      <td>2</td>
-      <td>2</td>
+      <td>5</td>
+      <td>5</td>
       <td>0</td>
-      <td>2</td>
-      <td>3</td>
-      <td>3</td>
-      <td>1</td>
-      <td>0</td>
-      <td>1</td>
-      <td>0</td>
-      <td>2</td>
-      <td>1</td>
-      <td>-1</td>
-      <td>1</td>
-      <td>2</td>
-      <td>0</td>
-      <td>4</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0.09</td>
-      <td>0.90</td>
-      <td>0.01</td>
+      <td>Rarely</td>
+      <td>Rarely</td>
+      <td>Moderate</td>
+      <td>1 AM</td>
+      <td>Good</td>
+      <td>Metro (Tier 1)</td>
+      <td>Preserving the environment</td>
+      <td>Live closely with nature</td>
+      <td>It is slowly going down</td>
+      <td>Be with them for as long as they want your com...</td>
+      <td>A crazy many</td>
+      <td>I should be a stand-up comedian because I find...</td>
+      <td>complain about this cop to multiple authoritie...</td>
+      <td>I finish the homework at a stretch, without an...</td>
+      <td>I am generally calm, peaceful and happy all th...</td>
+      <td>Always on time</td>
+      <td>Is this necessary? 🤔</td>
     </tr>
     <tr>
       <th>3</th>
       <td>19</td>
-      <td>1</td>
+      <td>Male</td>
+      <td>Satisfied</td>
+      <td>Not much</td>
       <td>4</td>
+      <td>No</td>
+      <td>Yes</td>
+      <td>No</td>
+      <td>False</td>
+      <td>You affectionately tell your mother, that you ...</td>
       <td>0</td>
-      <td>1</td>
-      <td>0</td>
-      <td>0</td>
-      <td>2</td>
-      <td>0.000000</td>
-      <td>1</td>
+      <td>Some</td>
+      <td>Sometimes</td>
+      <td>Speak to your parents and explain the situatio...</td>
+      <td>Once in three hours</td>
+      <td>Neutral</td>
+      <td>I will go, but I will encourage my friend to c...</td>
+      <td>Strongly Disagree</td>
+      <td>Ignore the information and treat Rohit like yo...</td>
+      <td>I'm happy even with a Distinction</td>
+      <td>I stay up late and wake up early again to revise.</td>
+      <td>I keep moving.</td>
+      <td>A crazy number of questions!</td>
+      <td>I will give myself a break and surely try agai...</td>
+      <td>You will miss the bus, and wait for your turn ...</td>
+      <td>Riding bicycle, Swimming, Ice/Roller skating</td>
+      <td>I will Google, ask a friend or reach out to th...</td>
+      <td>I would just put on my shoes and run</td>
+      <td>Agree</td>
+      <td>Certainly yes</td>
+      <td>You attended to grandpa's usual call as you wa...</td>
+      <td>I ignore and avoid such people</td>
+      <td>8</td>
       <td>5</td>
-      <td>1</td>
-      <td>-1</td>
-      <td>0</td>
-      <td>1</td>
-      <td>2</td>
-      <td>-1</td>
-      <td>1</td>
-      <td>1</td>
-      <td>1</td>
-      <td>1</td>
-      <td>3</td>
-      <td>0</td>
-      <td>0</td>
-      <td>-1</td>
-      <td>0</td>
-      <td>1</td>
-      <td>1</td>
-      <td>0</td>
-      <td>3</td>
-      <td>2</td>
+      <td>9</td>
       <td>4</td>
-      <td>1</td>
       <td>0</td>
-      <td>3</td>
-      <td>5</td>
-      <td>2</td>
-      <td>4</td>
-      <td>1</td>
-      <td>1</td>
-      <td>1</td>
-      <td>4</td>
-      <td>2</td>
-      <td>-1</td>
-      <td>4</td>
-      <td>4</td>
-      <td>-1</td>
-      <td>3</td>
-      <td>1</td>
-      <td>2</td>
-      <td>1.00</td>
-      <td>0.00</td>
-      <td>0.00</td>
+      <td>Sometimes</td>
+      <td>Very often</td>
+      <td>Low</td>
+      <td>2 AM</td>
+      <td>Poor</td>
+      <td>Metro (Tier 1)</td>
+      <td>Make our country modern, hi tech, and have bet...</td>
+      <td>Sometimes close with nature</td>
+      <td>Things are better than they used to be.</td>
+      <td>Be with them for as long as they want your com...</td>
+      <td>Many</td>
+      <td>Sometimes, I get humorous thoughts and it make...</td>
+      <td>I don't do anything about this</td>
+      <td>I break a lot and usually take longer than an ...</td>
+      <td>I feel I am generally calm, peaceful and happy...</td>
+      <td>Sometimes on time</td>
+      <td>Calm, learning, privileged, curious, wonderful</td>
     </tr>
     <tr>
       <th>4</th>
       <td>19</td>
-      <td>0</td>
+      <td>Female</td>
+      <td>Sad / Down</td>
+      <td>Life is not just happy</td>
       <td>4</td>
-      <td>0</td>
-      <td>1</td>
-      <td>1</td>
-      <td>1</td>
-      <td>2</td>
-      <td>3.401197</td>
-      <td>1</td>
-      <td>3</td>
-      <td>0</td>
-      <td>-1</td>
-      <td>1</td>
-      <td>0</td>
-      <td>-1</td>
-      <td>-1</td>
-      <td>1</td>
-      <td>1</td>
-      <td>3</td>
-      <td>1</td>
-      <td>3</td>
-      <td>0</td>
-      <td>0</td>
-      <td>-1</td>
-      <td>3</td>
-      <td>1</td>
-      <td>1</td>
-      <td>0</td>
-      <td>3</td>
-      <td>4</td>
-      <td>2</td>
-      <td>3</td>
-      <td>4</td>
-      <td>4</td>
-      <td>2</td>
-      <td>1</td>
-      <td>3</td>
-      <td>-1</td>
-      <td>2</td>
-      <td>1</td>
-      <td>2</td>
-      <td>-1</td>
-      <td>1</td>
-      <td>1</td>
-      <td>1</td>
-      <td>1</td>
-      <td>3</td>
-      <td>3</td>
-      <td>3</td>
-      <td>1.00</td>
-      <td>0.00</td>
-      <td>0.00</td>
+      <td>No</td>
+      <td>Yes</td>
+      <td>Yes</td>
+      <td>True</td>
+      <td>You affectionately tell your mother, that you ...</td>
+      <td>30</td>
+      <td>Very few</td>
+      <td>Often</td>
+      <td>Ask your friend and his/her parents to support...</td>
+      <td>Once in hour</td>
+      <td>Strongly Agree</td>
+      <td>I will not go and instead spend the evening wi...</td>
+      <td>Disagree</td>
+      <td>Ignore the information and treat Rohit like yo...</td>
+      <td>I'm happy even with a Distinction</td>
+      <td>I stay up late and revise through the night.</td>
+      <td>I spend time with people close to me and prefe...</td>
+      <td>A crazy number of questions!</td>
+      <td>I will give myself a break and surely try agai...</td>
+      <td>You will miss the bus, and wait for your turn ...</td>
+      <td>Cooking, Riding bicycle, Dancing, Playing musi...</td>
+      <td>I will Google, ask a friend or reach out to th...</td>
+      <td>I would just put on my shoes and run</td>
+      <td>Strongly Agree</td>
+      <td>Certainly yes</td>
+      <td>You skip freshening up, skip  cleaning up the ...</td>
+      <td>I ignore and avoid such people</td>
+      <td>7</td>
+      <td>10</td>
+      <td>5</td>
+      <td>7</td>
+      <td>10</td>
+      <td>Very often</td>
+      <td>Often</td>
+      <td>High</td>
+      <td>12 AM</td>
+      <td>Average</td>
+      <td>Tier 2</td>
+      <td>Make our country modern, hi tech, and have bet...</td>
+      <td>Live closely with nature</td>
+      <td>It is becoming very selfish, dangerous and hop...</td>
+      <td>Motivate them and tell them that it's not the ...</td>
+      <td>A crazy many</td>
+      <td>I am usually mischievous, and humor doesn’t le...</td>
+      <td>drive carefully when you pass that signal and ...</td>
+      <td>I break a lot and usually take longer than an ...</td>
+      <td>I feel proud at times, but this feeling only l...</td>
+      <td>Usually on time</td>
+      <td>It was beautiful</td>
     </tr>
   </tbody>
 </table>
@@ -570,6 +576,14 @@ window.onload = wrap_img;
 </div>
     
 
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Further processing was done on this data to make it usable for our models.</p>
+
+</div>
+</div>
+</div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
