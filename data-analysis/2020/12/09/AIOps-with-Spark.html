@@ -1,0 +1,2301 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>AIOps with Spark | fastblog</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="AIOps with Spark" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Forecasting metrics values for Cloud resources, to find anomalies, and optimize costs" />
+<meta property="og:description" content="Forecasting metrics values for Cloud resources, to find anomalies, and optimize costs" />
+<link rel="canonical" href="https://manikyabard.github.io/fastblog/data-analysis/2020/12/09/AIOps-with-Spark.html" />
+<meta property="og:url" content="https://manikyabard.github.io/fastblog/data-analysis/2020/12/09/AIOps-with-Spark.html" />
+<meta property="og:site_name" content="fastblog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-12-09T00:00:00-06:00" />
+<script type="application/ld+json">
+{"description":"Forecasting metrics values for Cloud resources, to find anomalies, and optimize costs","url":"https://manikyabard.github.io/fastblog/data-analysis/2020/12/09/AIOps-with-Spark.html","@type":"BlogPosting","headline":"AIOps with Spark","dateModified":"2020-12-09T00:00:00-06:00","datePublished":"2020-12-09T00:00:00-06:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://manikyabard.github.io/fastblog/data-analysis/2020/12/09/AIOps-with-Spark.html"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/fastblog/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://manikyabard.github.io/fastblog/feed.xml" title="fastblog" /><link rel="shortcut icon" type="image/x-icon" href="/fastblog/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" /><script src="https://hypothes.is/embed.js" async></script>
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/fastblog/">fastblog</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/fastblog/about/">About Me</a><a class="page-link" href="/fastblog/search/">Search</a><a class="page-link" href="/fastblog/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">AIOps with Spark</h1><p class="page-description">Forecasting metrics values for Cloud resources, to find anomalies, and optimize costs</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2020-12-09T00:00:00-06:00" itemprop="datePublished">
+        Dec 9, 2020
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      10 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/fastblog/categories/#data-analysis">data-analysis</a>
+        
+      
+      </p>
+    
+
+    
+      </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul class="section-nav">
+<li class="toc-entry toc-h2"><a href="#Introduction">Introduction </a></li>
+<li class="toc-entry toc-h2"><a href="#Architecture">Architecture </a></li>
+<li class="toc-entry toc-h2"><a href="#Importing-required-libraries">Importing required libraries </a></li>
+<li class="toc-entry toc-h2"><a href="#Defining-Helper-Functions">Defining Helper Functions </a></li>
+<li class="toc-entry toc-h2"><a href="#Training-the-model">Training the model </a></li>
+<li class="toc-entry toc-h2"><a href="#Streaming-data">Streaming data </a></li>
+</ul><!--
+#################################################
+### THIS FILE WAS AUTOGENERATED! DO NOT EDIT! ###
+#################################################
+# file to edit: _notebooks/2020-12-09-AIOps with Spark.ipynb
+-->
+
+<div class="container" id="notebook-container">
+        
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Introduction">
+<a class="anchor" href="#Introduction" aria-hidden="true"><span class="octicon octicon-link"></span></a>Introduction<a class="anchor-link" href="#Introduction"> </a>
+</h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Everyday people perform various computational processes which demand a lot of online resources throughout the day, month or the year. The amount of data produced per day is massive, and it is important to know the exact usage of resources through this time to make it available to the users as an when required, thereby improving the efficiency.
+In the following project, we make use of certain dev-ops output data and analyze the variation in the performance throughout the day by performing a time series analysis on the data using spark RDDs.
+Apache Spark is a unified analytical engine used for big data and machine learning purposes developed at UC Berkeley in 2009. They also founded Databricks from Azure in 2013, which we use here to execute our program</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Architecture">
+<a class="anchor" href="#Architecture" aria-hidden="true"><span class="octicon octicon-link"></span></a>Architecture<a class="anchor-link" href="#Architecture"> </a>
+</h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><img src="/fastblog/images/copied_from_nb/my_icons/Bigdataintro.png" alt=""></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Importing-required-libraries">
+<a class="anchor" href="#Importing-required-libraries" aria-hidden="true"><span class="octicon octicon-link"></span></a>Importing required libraries<a class="anchor-link" href="#Importing-required-libraries"> </a>
+</h2>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">fbprophet</span> <span class="kn">import</span> <span class="n">Prophet</span>
+<span class="kn">from</span> <span class="nn">pyspark</span> <span class="kn">import</span> <span class="n">SparkConf</span>
+<span class="kn">from</span> <span class="nn">pyspark.sql</span> <span class="kn">import</span> <span class="n">SparkSession</span>
+<span class="kn">from</span> <span class="nn">pyspark.sql.functions</span> <span class="kn">import</span> <span class="n">collect_list</span><span class="p">,</span> <span class="n">struct</span>
+<span class="kn">from</span> <span class="nn">pyspark.sql.types</span> <span class="kn">import</span> <span class="n">FloatType</span><span class="p">,</span> <span class="n">StructField</span><span class="p">,</span> <span class="n">StructType</span><span class="p">,</span> <span class="n">StringType</span><span class="p">,</span> <span class="n">TimestampType</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">mean_squared_error</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea ">
+<style scoped="">
+  .ansiout {
+    display: block;
+    unicode-bidi: embed;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    word-break: break-all;
+    font-family: "Source Code Pro", "Menlo", monospace;;
+    font-size: 13px;
+    color: #555;
+    margin-left: 4px;
+    line-height: 19px;
+  }
+</style>
+<div class="ansiout">Importing plotly failed. Interactive plots will not work.
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Defining path where data is stored.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">"/FileStore/tables/"</span><span class="p">)</span>
+<span class="n">file_name</span> <span class="o">=</span> <span class="s2">"i_0a1c7dc126cb6ac8b_CPUUtilization.csv"</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea ">
+<style scoped="">
+  .ansiout {
+    display: block;
+    unicode-bidi: embed;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    word-break: break-all;
+    font-family: "Source Code Pro", "Menlo", monospace;;
+    font-size: 13px;
+    color: #555;
+    margin-left: 4px;
+    line-height: 19px;
+  }
+</style>
+<div class="ansiout"></div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">pyarrow</span>
+<span class="n">pyarrow</span><span class="o">.</span><span class="n">__version__</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea ">
+<style scoped="">
+  .ansiout {
+    display: block;
+    unicode-bidi: embed;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    word-break: break-all;
+    font-family: "Source Code Pro", "Menlo", monospace;;
+    font-size: 13px;
+    color: #555;
+    margin-left: 4px;
+    line-height: 19px;
+  }
+</style>
+<div class="ansiout">Out[2]: '0.14.1'</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Defining-Helper-Functions">
+<a class="anchor" href="#Defining-Helper-Functions" aria-hidden="true"><span class="octicon octicon-link"></span></a>Defining Helper Functions<a class="anchor-link" href="#Defining-Helper-Functions"> </a>
+</h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Retrieves the data from path and cleans it.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">retrieve_data</span><span class="p">(</span><span class="n">file_name</span><span class="p">):</span>
+    <span class="sd">"""Load sample data from ./data/original-input.csv as a pyspark.sql.DataFrame."""</span>
+<span class="c1">#     df = (spark.read</span>
+<span class="c1">#           .option("header", "true")</span>
+<span class="c1">#           .option("inferSchema", value=True)</span>
+<span class="c1">#           .csv("./data/input.csv"))</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">read</span><span class="o">.</span><span class="n">option</span><span class="p">(</span><span class="s2">"header"</span><span class="p">,</span> <span class="s2">"true"</span><span class="p">)</span><span class="o">.</span><span class="n">option</span><span class="p">(</span><span class="s2">"inferSchema"</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">"csv"</span><span class="p">)</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">file_name</span><span class="p">)</span>
+
+    <span class="c1"># Drop any null values incase they exist</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
+
+    <span class="c1"># Rename timestamp to ds and total to y for fbprophet</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">select</span><span class="p">(</span>
+        <span class="n">df</span><span class="p">[</span><span class="s1">'timestamp'</span><span class="p">]</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s1">'ds'</span><span class="p">),</span>
+        <span class="n">df</span><span class="p">[</span><span class="s1">'service_name'</span><span class="p">],</span>
+        <span class="n">df</span><span class="p">[</span><span class="s1">'value'</span><span class="p">]</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">FloatType</span><span class="p">())</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s1">'y'</span><span class="p">),</span>
+        <span class="n">df</span><span class="p">[</span><span class="s1">'metric_name'</span><span class="p">]</span>
+    <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">df</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Retrieves the data as a stream from path.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">retrieve_datastream</span><span class="p">(</span><span class="n">file_name</span><span class="p">):</span>
+  <span class="n">schema</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">read</span><span class="o">.</span><span class="n">option</span><span class="p">(</span><span class="s2">"header"</span><span class="p">,</span> <span class="s2">"true"</span><span class="p">)</span><span class="o">.</span><span class="n">option</span><span class="p">(</span><span class="s2">"inferSchema"</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">"csv"</span><span class="p">)</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">file_name</span><span class="p">)</span><span class="o">.</span><span class="n">schema</span>
+
+  <span class="n">streamingInputDF</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">spark</span>
+      <span class="o">.</span><span class="n">readStream</span>
+      <span class="o">.</span><span class="n">schema</span><span class="p">(</span><span class="n">schema</span><span class="p">)</span>
+      <span class="o">.</span><span class="n">option</span><span class="p">(</span><span class="s2">"header"</span><span class="p">,</span> <span class="s2">"true"</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">"csv"</span><span class="p">)</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">file_name</span><span class="p">))</span>
+
+
+  <span class="n">streamingCountsDF</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">streamingInputDF</span>
+      <span class="o">.</span><span class="n">groupBy</span><span class="p">(</span>
+        <span class="n">streamingInputDF</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+        <span class="n">window</span><span class="p">(</span><span class="n">streamingInputDF</span><span class="o">.</span><span class="n">timestamp</span><span class="p">,</span> <span class="s2">"1 hour"</span><span class="p">))</span>
+      <span class="o">.</span><span class="n">count</span><span class="p">()</span>
+  <span class="p">)</span>
+  
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Function to convert each of the sql rows into a Python dictionary. We append each element to a single dictionalry and convert the final output into a pandas dataframe</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">transform_data</span><span class="p">(</span><span class="n">row</span><span class="p">):</span>
+    <span class="sd">"""Transform data from pyspark.sql.Row to python dict to be used in rdd."""</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s1">'data'</span><span class="p">]</span>
+    <span class="n">app</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s1">'service_name'</span><span class="p">]</span>
+    <span class="n">mt</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s1">'metric_name'</span><span class="p">]</span>
+
+    <span class="c1"># Transform [pyspark.sql.Dataframe.Row] -&gt; [dict]</span>
+    <span class="n">data_dicts</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+        <span class="n">data_dicts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">asDict</span><span class="p">())</span>
+
+    <span class="c1"># Convert into pandas dataframe for fbprophet</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data_dicts</span><span class="p">)</span>
+    <span class="n">data</span><span class="p">[</span><span class="s1">'ds'</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">'ds'</span><span class="p">])</span>
+
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s1">'service_name'</span><span class="p">:</span> <span class="n">app</span><span class="p">,</span>
+        <span class="s1">'metric_name'</span><span class="p">:</span> <span class="n">mt</span><span class="p">,</span>
+        <span class="s1">'data'</span><span class="p">:</span> <span class="n">data</span>
+    <span class="p">}</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Function used to split the data into training dataset and a testing dataset. The reference used to split would be the value of the timestamp. We initialize a 'max_datetime' variable to set a threshold for the split.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">partition_data</span><span class="p">(</span><span class="n">d</span><span class="p">):</span>
+    <span class="sd">"""Split data into training and testing based on timestamp."""</span>
+    <span class="c1"># Extract data from pd.Dataframe</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">d</span><span class="p">[</span><span class="s1">'data'</span><span class="p">]</span>
+
+    <span class="c1"># Find max timestamp and extract timestamp for start of day</span>
+    <span class="n">max_datetime</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">'ds'</span><span class="p">]))</span>
+<span class="c1">#     start_datetime = max_datetime.replace(hour=00, minute=00, second=00)</span>
+    <span class="n">start_datetime</span> <span class="o">=</span> <span class="s1">'10/10/20 00:00'</span>
+    <span class="c1"># Extract training data</span>
+    <span class="n">train_data</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">data</span><span class="p">[</span><span class="s1">'ds'</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">start_datetime</span><span class="p">]</span>
+
+    <span class="c1"># Account for zeros in data while still applying uniform transform</span>
+<span class="c1">#     train_data['y'] = train_data['y'].apply(lambda x: np.log(x + 1))</span>
+
+    <span class="c1"># Assign train/test split</span>
+    <span class="n">d</span><span class="p">[</span><span class="s1">'test_data'</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">loc</span><span class="p">[(</span><span class="n">data</span><span class="p">[</span><span class="s1">'ds'</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">start_datetime</span><span class="p">)</span>
+                              <span class="o">&amp;</span> <span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">'ds'</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">max_datetime</span><span class="p">)]</span>
+    <span class="n">d</span><span class="p">[</span><span class="s1">'train_data'</span><span class="p">]</span> <span class="o">=</span> <span class="n">train_data</span>
+
+    <span class="k">return</span> <span class="n">d</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Function that is used to create a prophet model out if the data we input into it. Prophet takes in certain arguments as shown below and outputs a time series analysis for the same.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">create_model</span><span class="p">(</span><span class="n">d</span><span class="p">):</span>
+    <span class="sd">"""Create Prophet model using each input grid parameter set."""</span>
+    <span class="n">m</span> <span class="o">=</span> <span class="n">Prophet</span><span class="p">()</span>
+    <span class="n">d</span><span class="p">[</span><span class="s1">'model'</span><span class="p">]</span> <span class="o">=</span> <span class="n">m</span>
+
+    <span class="k">return</span> <span class="n">d</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Once we have the Prophet model initialized we can fit the training dataset from our previous function and train the model.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">train_model</span><span class="p">(</span><span class="n">d</span><span class="p">):</span>
+    <span class="sd">"""Fit the model using the training data."""</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">d</span><span class="p">[</span><span class="s1">'model'</span><span class="p">]</span>
+    <span class="n">train_data</span> <span class="o">=</span> <span class="n">d</span><span class="p">[</span><span class="s1">'train_data'</span><span class="p">]</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train_data</span><span class="p">)</span>
+    <span class="n">d</span><span class="p">[</span><span class="s1">'model'</span><span class="p">]</span> <span class="o">=</span> <span class="n">model</span>
+
+    <span class="k">return</span> <span class="n">d</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Function used to test if the trained model is able to perform smoothly and forecast the right values for the same.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">test_model</span><span class="p">(</span><span class="n">d</span><span class="p">):</span>
+    <span class="sd">"""Run the forecast method on the model to make future predictions."""</span>
+    <span class="n">test_data</span> <span class="o">=</span> <span class="n">d</span><span class="p">[</span><span class="s1">'test_data'</span><span class="p">]</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">d</span><span class="p">[</span><span class="s1">'model'</span><span class="p">]</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="n">test_data</span><span class="p">[</span><span class="s1">'ds'</span><span class="p">]</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+    <span class="n">t</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'ds'</span><span class="p">]</span>
+
+    <span class="n">predictions</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+    <span class="n">d</span><span class="p">[</span><span class="s1">'predictions'</span><span class="p">]</span> <span class="o">=</span> <span class="n">predictions</span>
+
+    <span class="k">return</span> <span class="n">d</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Function to forecast the data values upto a certain defined threshold.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">make_forecast</span><span class="p">(</span><span class="n">d</span><span class="p">):</span>
+    <span class="sd">"""Execute the forecast method on the model to make future predictions."""</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">d</span><span class="p">[</span><span class="s1">'model'</span><span class="p">]</span>
+    <span class="n">future</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">make_future_dataframe</span><span class="p">(</span>
+        <span class="n">periods</span><span class="o">=</span><span class="mi">576</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="s1">'5min'</span><span class="p">,</span> <span class="n">include_history</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">future</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">future</span><span class="p">[</span><span class="s1">'ds'</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">DateOffset</span><span class="p">(</span><span class="mi">1</span><span class="p">)))</span>
+    <span class="n">forecast</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">future</span><span class="p">)</span>
+    <span class="n">d</span><span class="p">[</span><span class="s1">'forecast'</span><span class="p">]</span> <span class="o">=</span> <span class="n">forecast</span>
+    
+
+    <span class="k">return</span> <span class="n">d</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Function used to normalize all the values of our data.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">normalize_predictions</span><span class="p">(</span><span class="n">d</span><span class="p">):</span>
+    <span class="sd">"""Normalize predictions using np.exp()."""</span>
+    <span class="n">predictions</span> <span class="o">=</span> <span class="n">d</span><span class="p">[</span><span class="s1">'predictions'</span><span class="p">]</span>
+<span class="c1">#     predictions['yhat'] = np.exp(predictions['yhat']) - 1</span>
+    <span class="n">d</span><span class="p">[</span><span class="s1">'predictions'</span><span class="p">]</span> <span class="o">=</span> <span class="n">predictions</span>
+    <span class="k">return</span> <span class="n">d</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Function used to normalize the values of our forecasted data. As mentioned below, since certain values tend to infinity, we replace these values with None using lambda functions.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">normalize_forecast</span><span class="p">(</span><span class="n">d</span><span class="p">):</span>
+    <span class="sd">"""Normalize predictions using np.exp().</span>
+<span class="sd">    Note:  np.exp(&gt;709.782) = inf, so replace value with None</span>
+<span class="sd">    """</span>
+    <span class="n">forecast</span> <span class="o">=</span> <span class="n">d</span><span class="p">[</span><span class="s1">'forecast'</span><span class="p">]</span>
+<span class="c1">#     forecast['yhat'] = forecast['yhat'].apply(</span>
+<span class="c1">#         lambda x: np.exp(x) - 1 if x &lt; 709.782 else None)</span>
+<span class="c1">#     forecast['yhat_lower'] = forecast['yhat_lower'].apply(</span>
+<span class="c1">#         lambda x: np.exp(x) - 1 if x &lt; 709.782 else None)</span>
+<span class="c1">#     forecast['yhat_upper'] = forecast['yhat_upper'].apply(</span>
+<span class="c1">#         lambda x: np.exp(x) - 1 if x &lt; 709.782 else None)</span>
+    <span class="n">d</span><span class="p">[</span><span class="s1">'forecast'</span><span class="p">]</span> <span class="o">=</span> <span class="n">forecast</span>
+    <span class="k">return</span> <span class="n">d</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Function used to calculate the mean squared error of the given test data with respect to the predicted outcomes.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">calc_error</span><span class="p">(</span><span class="n">d</span><span class="p">):</span>
+    <span class="sd">"""Calculate error using mse (mean squared error)."""</span>
+    <span class="n">test_data</span> <span class="o">=</span> <span class="n">d</span><span class="p">[</span><span class="s1">'test_data'</span><span class="p">]</span>
+    <span class="n">predictions</span> <span class="o">=</span> <span class="n">d</span><span class="p">[</span><span class="s1">'predictions'</span><span class="p">]</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="n">mean_squared_error</span><span class="p">(</span><span class="n">test_data</span><span class="p">[</span><span class="s1">'y'</span><span class="p">],</span> <span class="n">predictions</span><span class="p">[</span><span class="s1">'yhat'</span><span class="p">])</span>
+    <span class="n">d</span><span class="p">[</span><span class="s1">'mse'</span><span class="p">]</span> <span class="o">=</span> <span class="n">results</span>
+
+    <span class="k">return</span> <span class="n">d</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Function used to return a table of all the previously calculated values of our forecast and our mean square errors.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">reduce_data_scope</span><span class="p">(</span><span class="n">d</span><span class="p">):</span>
+    <span class="sd">"""Return a tuple (service_name + , + metric_type, {})."""</span>
+    <span class="k">return</span> <span class="p">(</span>
+        <span class="n">d</span><span class="p">[</span><span class="s1">'service_name'</span><span class="p">]</span> <span class="o">+</span> <span class="s1">','</span> <span class="o">+</span> <span class="n">d</span><span class="p">[</span><span class="s1">'metric_name'</span><span class="p">],</span>
+        <span class="p">{</span>
+            <span class="s1">'forecast'</span><span class="p">:</span> <span class="n">d</span><span class="p">[</span><span class="s1">'forecast'</span><span class="p">],</span>
+            <span class="s1">'mse'</span><span class="p">:</span> <span class="n">d</span><span class="p">[</span><span class="s1">'mse'</span><span class="p">],</span>
+        <span class="p">},</span>
+    <span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Function to Flatten rdd into tuple which will be converted into a dataframe.Row.
+    Checks each float to see if it is a np datatype, since it could be None.
+    If it is an np datatype then it will convert to scalar python datatype
+    so that it can be persisted into a database, since most dont know how to
+    interpret np python datatypes.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">expand_predictions</span><span class="p">(</span><span class="n">d</span><span class="p">):</span>
+    <span class="sd">"""Flatten rdd into tuple which will be converted into a dataframe.Row.</span>
+<span class="sd">    Checks each float to see if it is a np datatype, since it could be None.</span>
+<span class="sd">    If it is an np datatype then it will convert to scalar python datatype</span>
+<span class="sd">    so that it can be persisted into a database, since most dont know how to</span>
+<span class="sd">    interpret np python datatypes.</span>
+<span class="sd">    """</span>
+    <span class="n">service_metric</span><span class="p">,</span> <span class="n">data</span> <span class="o">=</span> <span class="n">d</span>
+    <span class="n">service</span><span class="p">,</span> <span class="n">metric</span> <span class="o">=</span> <span class="n">service_metric</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">','</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">[</span>
+        <span class="p">(</span>
+            <span class="n">service</span><span class="p">,</span>
+            <span class="n">metric</span><span class="p">,</span>
+            <span class="n">p</span><span class="p">[</span><span class="s1">'ds'</span><span class="p">]</span><span class="o">.</span><span class="n">to_pydatetime</span><span class="p">(),</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">asscalar</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="s1">'yhat'</span><span class="p">])</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span>
+                <span class="n">p</span><span class="p">[</span><span class="s1">'yhat'</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">generic</span><span class="p">)</span> <span class="k">else</span> <span class="n">p</span><span class="p">[</span><span class="s1">'yhat'</span><span class="p">],</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">asscalar</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="s1">'yhat_lower'</span><span class="p">])</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span>
+                <span class="n">p</span><span class="p">[</span><span class="s1">'yhat_lower'</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">generic</span><span class="p">)</span> <span class="k">else</span> <span class="n">p</span><span class="p">[</span><span class="s1">'yhat_lower'</span><span class="p">],</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">asscalar</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="s1">'yhat_upper'</span><span class="p">])</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span>
+                <span class="n">p</span><span class="p">[</span><span class="s1">'yhat_upper'</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">generic</span><span class="p">)</span> <span class="k">else</span> <span class="n">p</span><span class="p">[</span><span class="s1">'yhat_upper'</span><span class="p">],</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">asscalar</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">'mse'</span><span class="p">])</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span>
+                <span class="n">data</span><span class="p">[</span><span class="s1">'mse'</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">generic</span><span class="p">)</span> <span class="k">else</span> <span class="n">data</span><span class="p">[</span><span class="s1">'mse'</span><span class="p">],</span>
+        <span class="p">)</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">'forecast'</span><span class="p">]</span><span class="o">.</span><span class="n">iterrows</span><span class="p">()</span>
+    <span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea ">
+<style scoped="">
+  .ansiout {
+    display: block;
+    unicode-bidi: embed;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    word-break: break-all;
+    font-family: "Source Code Pro", "Menlo", monospace;;
+    font-size: 13px;
+    color: #555;
+    margin-left: 4px;
+    line-height: 19px;
+  }
+</style>
+<div class="ansiout"></div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">file_name</span> <span class="o">=</span> <span class="s2">"/FileStore/tables/i_0a1c7dc126cb6ac8b_CPUUtilization.csv"</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea ">
+<style scoped="">
+  .ansiout {
+    display: block;
+    unicode-bidi: embed;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    word-break: break-all;
+    font-family: "Source Code Pro", "Menlo", monospace;;
+    font-size: 13px;
+    color: #555;
+    margin-left: 4px;
+    line-height: 19px;
+  }
+</style>
+<div class="ansiout"></div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Reading the csv file from the databricks file system (dbfs).</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df1</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">read</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">"csv"</span><span class="p">)</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="s2">"true"</span><span class="p">,</span> <span class="n">inferSchema</span><span class="o">=</span><span class="s2">"true"</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea ">
+<style scoped="">
+  .ansiout {
+    display: block;
+    unicode-bidi: embed;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    word-break: break-all;
+    font-family: "Source Code Pro", "Menlo", monospace;;
+    font-size: 13px;
+    color: #555;
+    margin-left: 4px;
+    line-height: 19px;
+  }
+</style>
+<div class="ansiout"></div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The below function registers a table to make it accessible via SQL content as shown below.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df1</span><span class="o">.</span><span class="n">createOrReplaceTempView</span><span class="p">(</span><span class="s2">"data_ec2"</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea ">
+<style scoped="">
+  .ansiout {
+    display: block;
+    unicode-bidi: embed;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    word-break: break-all;
+    font-family: "Source Code Pro", "Menlo", monospace;;
+    font-size: 13px;
+    color: #555;
+    margin-left: 4px;
+    line-height: 19px;
+  }
+</style>
+<div class="ansiout"></div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="k">sql</span>
+<span class="n">select</span> <span class="n">timestamp</span><span class="p">,</span> <span class="n">value</span> <span class="kn">from</span> <span class="nn">data_ec2</span> <span class="n">where</span> <span class="n">metric_name</span> <span class="o">=</span> <span class="s1">'CPUUtilization'</span><span class="p">;</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df1</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea ">
+<style scoped="">
+  .ansiout {
+    display: block;
+    unicode-bidi: embed;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    word-break: break-all;
+    font-family: "Source Code Pro", "Menlo", monospace;;
+    font-size: 13px;
+    color: #555;
+    margin-left: 4px;
+    line-height: 19px;
+  }
+</style>
+<div class="ansiout">Out[32]: DataFrame[_c0: int, provider: string, service_name: string, account_id: bigint, region: string, resource_id: string, asset_id: string, timestamp: string, value: double, unit: string, metric_name: string, statistic: string]</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Training-the-model">
+<a class="anchor" href="#Training-the-model" aria-hidden="true"><span class="octicon octicon-link"></span></a>Training the model<a class="anchor-link" href="#Training-the-model"> </a>
+</h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Initializing the spark configuration and spark session.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">conf</span> <span class="o">=</span> <span class="p">(</span><span class="n">SparkConf</span><span class="p">()</span>
+        <span class="o">.</span><span class="n">setMaster</span><span class="p">(</span><span class="s2">"local[*]"</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">setAppName</span><span class="p">(</span><span class="s2">"EC2 Training"</span><span class="p">))</span>
+
+<span class="n">spark</span> <span class="o">=</span> <span class="p">(</span><span class="n">SparkSession</span>
+         <span class="o">.</span><span class="n">builder</span>
+         <span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="n">conf</span><span class="o">=</span><span class="n">conf</span><span class="p">)</span>
+         <span class="o">.</span><span class="n">getOrCreate</span><span class="p">())</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea ">
+<style scoped="">
+  .ansiout {
+    display: block;
+    unicode-bidi: embed;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    word-break: break-all;
+    font-family: "Source Code Pro", "Menlo", monospace;;
+    font-size: 13px;
+    color: #555;
+    margin-left: 4px;
+    line-height: 19px;
+  }
+</style>
+<div class="ansiout"></div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">sc</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">sparkContext</span>
+<span class="n">sc</span><span class="o">.</span><span class="n">setLogLevel</span><span class="p">(</span><span class="s2">"INFO"</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea ">
+<style scoped="">
+  .ansiout {
+    display: block;
+    unicode-bidi: embed;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    word-break: break-all;
+    font-family: "Source Code Pro", "Menlo", monospace;;
+    font-size: 13px;
+    color: #555;
+    margin-left: 4px;
+    line-height: 19px;
+  }
+</style>
+<div class="ansiout"></div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Retrieve data from dbfs</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">retrieve_data</span><span class="p">(</span><span class="n">file_name</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea ">
+<style scoped="">
+  .ansiout {
+    display: block;
+    unicode-bidi: embed;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    word-break: break-all;
+    font-family: "Source Code Pro", "Menlo", monospace;;
+    font-size: 13px;
+    color: #555;
+    margin-left: 4px;
+    line-height: 19px;
+  }
+</style>
+<div class="ansiout"></div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Group data by app and metric_type to aggregate data for each app-metric combo.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupBy</span><span class="p">(</span><span class="s1">'service_name'</span><span class="p">,</span> <span class="s1">'metric_name'</span><span class="p">)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">agg</span><span class="p">(</span><span class="n">collect_list</span><span class="p">(</span><span class="n">struct</span><span class="p">(</span><span class="s1">'ds'</span><span class="p">,</span> <span class="s1">'y'</span><span class="p">))</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s1">'data'</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Using the previously defined functions with lambda functions to execute the RDDs and provide our prophet model.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">rdd</span>
+      <span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">r</span><span class="p">:</span> <span class="n">transform_data</span><span class="p">(</span><span class="n">r</span><span class="p">))</span>
+      <span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">d</span><span class="p">:</span> <span class="n">partition_data</span><span class="p">(</span><span class="n">d</span><span class="p">))</span>
+      <span class="c1"># prophet cant handle data with &lt; 2 training examples</span>
+      <span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">d</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="s1">'train_data'</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">)</span>
+      <span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">d</span><span class="p">:</span> <span class="n">create_model</span><span class="p">(</span><span class="n">d</span><span class="p">))</span>
+      <span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">d</span><span class="p">:</span> <span class="n">train_model</span><span class="p">(</span><span class="n">d</span><span class="p">))</span>
+      <span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">d</span><span class="p">:</span> <span class="n">test_model</span><span class="p">(</span><span class="n">d</span><span class="p">))</span>
+      <span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">d</span><span class="p">:</span> <span class="n">make_forecast</span><span class="p">(</span><span class="n">d</span><span class="p">))</span>
+      <span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">d</span><span class="p">:</span> <span class="n">normalize_forecast</span><span class="p">(</span><span class="n">d</span><span class="p">))</span>
+      <span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">d</span><span class="p">:</span> <span class="n">normalize_predictions</span><span class="p">(</span><span class="n">d</span><span class="p">))</span>
+      <span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">d</span><span class="p">:</span> <span class="n">calc_error</span><span class="p">(</span><span class="n">d</span><span class="p">))</span>
+      <span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">d</span><span class="p">:</span> <span class="n">reduce_data_scope</span><span class="p">(</span><span class="n">d</span><span class="p">))</span>
+      <span class="o">.</span><span class="n">flatMap</span><span class="p">(</span><span class="k">lambda</span> <span class="n">d</span><span class="p">:</span> <span class="n">expand_predictions</span><span class="p">(</span><span class="n">d</span><span class="p">)))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea ">
+<style scoped="">
+  .ansiout {
+    display: block;
+    unicode-bidi: embed;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    word-break: break-all;
+    font-family: "Source Code Pro", "Menlo", monospace;;
+    font-size: 13px;
+    color: #555;
+    margin-left: 4px;
+    line-height: 19px;
+  }
+</style>
+<div class="ansiout"></div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Defining the schema of the rdd.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">schema</span> <span class="o">=</span> <span class="n">StructType</span><span class="p">([</span>
+    <span class="n">StructField</span><span class="p">(</span><span class="s2">"service_name"</span><span class="p">,</span> <span class="n">StringType</span><span class="p">(),</span> <span class="kc">True</span><span class="p">),</span>
+    <span class="n">StructField</span><span class="p">(</span><span class="s2">"metric_name"</span><span class="p">,</span> <span class="n">StringType</span><span class="p">(),</span> <span class="kc">True</span><span class="p">),</span>
+    <span class="n">StructField</span><span class="p">(</span><span class="s2">"ds"</span><span class="p">,</span> <span class="n">TimestampType</span><span class="p">(),</span> <span class="kc">True</span><span class="p">),</span>
+    <span class="n">StructField</span><span class="p">(</span><span class="s2">"yhat"</span><span class="p">,</span> <span class="n">FloatType</span><span class="p">(),</span> <span class="kc">True</span><span class="p">),</span>
+    <span class="n">StructField</span><span class="p">(</span><span class="s2">"yhat_lower"</span><span class="p">,</span> <span class="n">FloatType</span><span class="p">(),</span> <span class="kc">True</span><span class="p">),</span>
+    <span class="n">StructField</span><span class="p">(</span><span class="s2">"yhat_upper"</span><span class="p">,</span> <span class="n">FloatType</span><span class="p">(),</span> <span class="kc">True</span><span class="p">),</span>
+    <span class="n">StructField</span><span class="p">(</span><span class="s2">"mse"</span><span class="p">,</span> <span class="n">FloatType</span><span class="p">(),</span> <span class="kc">True</span><span class="p">)</span>
+<span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea ">
+<style scoped="">
+  .ansiout {
+    display: block;
+    unicode-bidi: embed;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    word-break: break-all;
+    font-family: "Source Code Pro", "Menlo", monospace;;
+    font-size: 13px;
+    color: #555;
+    margin-left: 4px;
+    line-height: 19px;
+  }
+</style>
+<div class="ansiout"></div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">schema</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea ">
+<style scoped="">
+  .ansiout {
+    display: block;
+    unicode-bidi: embed;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    word-break: break-all;
+    font-family: "Source Code Pro", "Menlo", monospace;;
+    font-size: 13px;
+    color: #555;
+    margin-left: 4px;
+    line-height: 19px;
+  }
+</style>
+<div class="ansiout"></div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea ">
+<style scoped="">
+  .ansiout {
+    display: block;
+    unicode-bidi: embed;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    word-break: break-all;
+    font-family: "Source Code Pro", "Menlo", monospace;;
+    font-size: 13px;
+    color: #555;
+    margin-left: 4px;
+    line-height: 19px;
+  }
+</style>
+<div class="ansiout">Out[46]: DataFrame[service_name: string, metric_name: string, ds: timestamp, yhat: float, yhat_lower: float, yhat_upper: float, mse: float]</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="k">sql</span>
+<span class="n">select</span> <span class="n">ds</span><span class="p">,</span> <span class="n">yhat</span> <span class="kn">from</span> <span class="nn">forecasts</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><img src="/fastblog/images/copied_from_nb/my_icons/qqplot.png" alt=""></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><img src="/fastblog/images/copied_from_nb/my_icons/sqltable1.png" alt=""></p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><img src="/fastblog/images/copied_from_nb/my_icons/dfshow.png" alt=""></p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">createOrReplaceTempView</span><span class="p">(</span><span class="s2">"forecasts"</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea ">
+<style scoped="">
+  .ansiout {
+    display: block;
+    unicode-bidi: embed;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    word-break: break-all;
+    font-family: "Source Code Pro", "Menlo", monospace;;
+    font-size: 13px;
+    color: #555;
+    margin-left: 4px;
+    line-height: 19px;
+  }
+</style>
+<div class="ansiout"></div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We create a temporary variable to store the pandas dataframe and slice to show the the output.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">temp</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">toPandas</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea ">
+<style scoped="">
+  .ansiout {
+    display: block;
+    unicode-bidi: embed;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    word-break: break-all;
+    font-family: "Source Code Pro", "Menlo", monospace;;
+    font-size: 13px;
+    color: #555;
+    margin-left: 4px;
+    line-height: 19px;
+  }
+</style>
+<div class="ansiout">/databricks/spark/python/pyspark/sql/pandas/conversion.py:88: UserWarning: toPandas attempted Arrow optimization because 'spark.sql.execution.arrow.pyspark.enabled' is set to true; however, failed by the reason below:
+  PyArrow &gt;= 0.15.1 must be installed; however, your version was 0.14.1.
+Attempting non-optimization as 'spark.sql.execution.arrow.pyspark.fallback.enabled' is set to true.
+  warnings.warn(msg)
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">temp</span><span class="p">[:</span><span class="mi">30</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea ">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>service_name</th>
+      <th>metric_name</th>
+      <th>ds</th>
+      <th>yhat</th>
+      <th>yhat_lower</th>
+      <th>yhat_upper</th>
+      <th>mse</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>ec2</td>
+      <td>CPUUtilization</td>
+      <td>2020-10-11 00:00:00</td>
+      <td>4.619425</td>
+      <td>2.152688</td>
+      <td>7.399229</td>
+      <td>14.689586</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>ec2</td>
+      <td>CPUUtilization</td>
+      <td>2020-10-11 00:05:00</td>
+      <td>4.819132</td>
+      <td>2.049825</td>
+      <td>7.313528</td>
+      <td>14.689586</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>ec2</td>
+      <td>CPUUtilization</td>
+      <td>2020-10-11 00:10:00</td>
+      <td>5.025560</td>
+      <td>2.346648</td>
+      <td>7.663989</td>
+      <td>14.689586</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>ec2</td>
+      <td>CPUUtilization</td>
+      <td>2020-10-11 00:15:00</td>
+      <td>5.238224</td>
+      <td>2.600470</td>
+      <td>8.062807</td>
+      <td>14.689586</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>ec2</td>
+      <td>CPUUtilization</td>
+      <td>2020-10-11 00:20:00</td>
+      <td>5.456621</td>
+      <td>2.759909</td>
+      <td>8.302505</td>
+      <td>14.689586</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>ec2</td>
+      <td>CPUUtilization</td>
+      <td>2020-10-11 00:25:00</td>
+      <td>5.680228</td>
+      <td>3.041043</td>
+      <td>8.384025</td>
+      <td>14.689586</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>ec2</td>
+      <td>CPUUtilization</td>
+      <td>2020-10-11 00:30:00</td>
+      <td>5.908505</td>
+      <td>3.247892</td>
+      <td>8.670483</td>
+      <td>14.689586</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>ec2</td>
+      <td>CPUUtilization</td>
+      <td>2020-10-11 00:35:00</td>
+      <td>6.140900</td>
+      <td>3.661118</td>
+      <td>8.664343</td>
+      <td>14.689586</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>ec2</td>
+      <td>CPUUtilization</td>
+      <td>2020-10-11 00:40:00</td>
+      <td>6.376847</td>
+      <td>3.758875</td>
+      <td>8.888179</td>
+      <td>14.689586</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>ec2</td>
+      <td>CPUUtilization</td>
+      <td>2020-10-11 00:45:00</td>
+      <td>6.615771</td>
+      <td>3.907142</td>
+      <td>9.169059</td>
+      <td>14.689586</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>ec2</td>
+      <td>CPUUtilization</td>
+      <td>2020-10-11 00:50:00</td>
+      <td>6.857092</td>
+      <td>4.183938</td>
+      <td>9.378720</td>
+      <td>14.689586</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>ec2</td>
+      <td>CPUUtilization</td>
+      <td>2020-10-11 00:55:00</td>
+      <td>7.100224</td>
+      <td>4.212289</td>
+      <td>9.687737</td>
+      <td>14.689586</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>ec2</td>
+      <td>CPUUtilization</td>
+      <td>2020-10-11 01:00:00</td>
+      <td>7.344578</td>
+      <td>4.710319</td>
+      <td>10.216467</td>
+      <td>14.689586</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>ec2</td>
+      <td>CPUUtilization</td>
+      <td>2020-10-11 01:05:00</td>
+      <td>7.589569</td>
+      <td>5.146057</td>
+      <td>10.505490</td>
+      <td>14.689586</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>ec2</td>
+      <td>CPUUtilization</td>
+      <td>2020-10-11 01:10:00</td>
+      <td>7.834610</td>
+      <td>5.086944</td>
+      <td>10.616975</td>
+      <td>14.689586</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>ec2</td>
+      <td>CPUUtilization</td>
+      <td>2020-10-11 01:15:00</td>
+      <td>8.079126</td>
+      <td>5.313694</td>
+      <td>10.592289</td>
+      <td>14.689586</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>ec2</td>
+      <td>CPUUtilization</td>
+      <td>2020-10-11 01:20:00</td>
+      <td>8.322544</td>
+      <td>5.868225</td>
+      <td>11.002398</td>
+      <td>14.689586</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>ec2</td>
+      <td>CPUUtilization</td>
+      <td>2020-10-11 01:25:00</td>
+      <td>8.564303</td>
+      <td>5.880727</td>
+      <td>11.178074</td>
+      <td>14.689586</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>ec2</td>
+      <td>CPUUtilization</td>
+      <td>2020-10-11 01:30:00</td>
+      <td>8.803857</td>
+      <td>6.183046</td>
+      <td>11.552999</td>
+      <td>14.689586</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>ec2</td>
+      <td>CPUUtilization</td>
+      <td>2020-10-11 01:35:00</td>
+      <td>9.040670</td>
+      <td>6.286131</td>
+      <td>11.792228</td>
+      <td>14.689586</td>
+    </tr>
+    <tr>
+      <th>20</th>
+      <td>ec2</td>
+      <td>CPUUtilization</td>
+      <td>2020-10-11 01:40:00</td>
+      <td>9.274226</td>
+      <td>6.631486</td>
+      <td>11.928005</td>
+      <td>14.689586</td>
+    </tr>
+    <tr>
+      <th>21</th>
+      <td>ec2</td>
+      <td>CPUUtilization</td>
+      <td>2020-10-11 01:45:00</td>
+      <td>9.504026</td>
+      <td>6.949830</td>
+      <td>12.192855</td>
+      <td>14.689586</td>
+    </tr>
+    <tr>
+      <th>22</th>
+      <td>ec2</td>
+      <td>CPUUtilization</td>
+      <td>2020-10-11 01:50:00</td>
+      <td>9.729593</td>
+      <td>7.086974</td>
+      <td>12.337980</td>
+      <td>14.689586</td>
+    </tr>
+    <tr>
+      <th>23</th>
+      <td>ec2</td>
+      <td>CPUUtilization</td>
+      <td>2020-10-11 01:55:00</td>
+      <td>9.950470</td>
+      <td>7.122755</td>
+      <td>12.677289</td>
+      <td>14.689586</td>
+    </tr>
+    <tr>
+      <th>24</th>
+      <td>ec2</td>
+      <td>CPUUtilization</td>
+      <td>2020-10-11 02:00:00</td>
+      <td>10.166224</td>
+      <td>7.448644</td>
+      <td>12.650644</td>
+      <td>14.689586</td>
+    </tr>
+    <tr>
+      <th>25</th>
+      <td>ec2</td>
+      <td>CPUUtilization</td>
+      <td>2020-10-11 02:05:00</td>
+      <td>10.376447</td>
+      <td>7.896529</td>
+      <td>13.116122</td>
+      <td>14.689586</td>
+    </tr>
+    <tr>
+      <th>26</th>
+      <td>ec2</td>
+      <td>CPUUtilization</td>
+      <td>2020-10-11 02:10:00</td>
+      <td>10.580760</td>
+      <td>7.970045</td>
+      <td>13.270639</td>
+      <td>14.689586</td>
+    </tr>
+    <tr>
+      <th>27</th>
+      <td>ec2</td>
+      <td>CPUUtilization</td>
+      <td>2020-10-11 02:15:00</td>
+      <td>10.778807</td>
+      <td>8.094746</td>
+      <td>13.579990</td>
+      <td>14.689586</td>
+    </tr>
+    <tr>
+      <th>28</th>
+      <td>ec2</td>
+      <td>CPUUtilization</td>
+      <td>2020-10-11 02:20:00</td>
+      <td>10.970263</td>
+      <td>8.249172</td>
+      <td>13.512366</td>
+      <td>14.689586</td>
+    </tr>
+    <tr>
+      <th>29</th>
+      <td>ec2</td>
+      <td>CPUUtilization</td>
+      <td>2020-10-11 02:25:00</td>
+      <td>11.154834</td>
+      <td>8.614250</td>
+      <td>13.950434</td>
+      <td>14.689586</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Writing the output forecasts to a parquet file stored in dbfs.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">write</span><span class="o">.</span><span class="n">options</span><span class="p">(</span><span class="n">header</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">parquet</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">file_name</span><span class="si">}</span><span class="s1">_output.parquet'</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">'overwrite'</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea ">
+<style scoped="">
+  .ansiout {
+    display: block;
+    unicode-bidi: embed;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    word-break: break-all;
+    font-family: "Source Code Pro", "Menlo", monospace;;
+    font-size: 13px;
+    color: #555;
+    margin-left: 4px;
+    line-height: 19px;
+  }
+</style>
+<div class="ansiout"></div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Streaming-data">
+<a class="anchor" href="#Streaming-data" aria-hidden="true"><span class="octicon octicon-link"></span></a>Streaming data<a class="anchor-link" href="#Streaming-data"> </a>
+</h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The input path has been defined where the new data gets added. Structured streaming has been performed for testing our model.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">pyspark.sql.types</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">pyspark.sql.functions</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="n">inputPath</span> <span class="o">=</span> <span class="s2">"/FileStore/tables/"</span>
+<span class="n">name</span> <span class="o">=</span> <span class="s2">"i_0a1c7dc126cb6ac8b_CPUUtilization.csv"</span>
+
+<span class="n">schema</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">read</span><span class="o">.</span><span class="n">option</span><span class="p">(</span><span class="s2">"header"</span><span class="p">,</span> <span class="s2">"true"</span><span class="p">)</span><span class="o">.</span><span class="n">option</span><span class="p">(</span><span class="s2">"inferSchema"</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">"csv"</span><span class="p">)</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">inputPath</span><span class="o">+</span><span class="n">name</span><span class="p">)</span><span class="o">.</span><span class="n">schema</span>
+
+<span class="n">streamingInputDF</span> <span class="o">=</span> <span class="p">(</span>
+  <span class="n">spark</span>
+    <span class="o">.</span><span class="n">readStream</span>
+    <span class="o">.</span><span class="n">schema</span><span class="p">(</span><span class="n">schema</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">option</span><span class="p">(</span><span class="s2">"header"</span><span class="p">,</span> <span class="s2">"true"</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">"csv"</span><span class="p">)</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">inputPath</span><span class="o">+</span><span class="s1">'*.csv'</span><span class="p">))</span>
+
+
+<span class="n">streamingCountsDF</span> <span class="o">=</span> <span class="p">(</span>
+  <span class="n">streamingInputDF</span>
+    <span class="o">.</span><span class="n">groupBy</span><span class="p">(</span>
+      <span class="n">streamingInputDF</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+      <span class="n">window</span><span class="p">(</span><span class="n">streamingInputDF</span><span class="o">.</span><span class="n">timestamp</span><span class="p">,</span> <span class="s2">"1 hour"</span><span class="p">))</span>
+    <span class="o">.</span><span class="n">count</span><span class="p">()</span>
+<span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea ">
+<style scoped="">
+  .ansiout {
+    display: block;
+    unicode-bidi: embed;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    word-break: break-all;
+    font-family: "Source Code Pro", "Menlo", monospace;;
+    font-size: 13px;
+    color: #555;
+    margin-left: 4px;
+    line-height: 19px;
+  }
+</style>
+<div class="ansiout"></div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">query</span> <span class="o">=</span> <span class="p">(</span>
+  <span class="n">streamingCountsDF</span>
+    <span class="o">.</span><span class="n">writeStream</span>
+    <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">"memory"</span><span class="p">)</span>        <span class="c1"># memory = store in-memory table (for testing only)</span>
+    <span class="o">.</span><span class="n">queryName</span><span class="p">(</span><span class="s2">"count"</span><span class="p">)</span>     <span class="c1"># counts = name of the in-memory table</span>
+    <span class="o">.</span><span class="n">outputMode</span><span class="p">(</span><span class="s2">"complete"</span><span class="p">)</span>  <span class="c1"># complete = all the counts should be in the table</span>
+    <span class="o">.</span><span class="n">start</span><span class="p">()</span>
+<span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea ">
+<style scoped="">
+  .ansiout {
+    display: block;
+    unicode-bidi: embed;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    word-break: break-all;
+    font-family: "Source Code Pro", "Menlo", monospace;;
+    font-size: 13px;
+    color: #555;
+    margin-left: 4px;
+    line-height: 19px;
+  }
+</style>
+<div class="ansiout"></div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><img src="/fastblog/images/copied_from_nb/my_icons/dag.png" alt=""></p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="k">sql</span> select value, date_format(window.end, "MMM-dd HH:mm") as time, count from count order by time
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea ">
+<style scoped="">
+  .ansiout {
+    display: block;
+    unicode-bidi: embed;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    word-break: break-all;
+    font-family: "Source Code Pro", "Menlo", monospace;;
+    font-size: 13px;
+    color: #555;
+    margin-left: 4px;
+    line-height: 19px;
+  }
+</style>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><img src="/fastblog/images/copied_from_nb/my_icons/streamtable.png" alt=""></p>
+
+</div>
+</div>
+</div>
+</div>
+
+
+
+  </div><!-- from https://github.com/utterance/utterances -->
+<script src="https://utteranc.es/client.js"
+        repo="manikyabard/fastblog"
+        issue-term="title"
+        label="blogpost-comment"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script><a class="u-url" href="/fastblog/data-analysis/2020/12/09/AIOps-with-Spark.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/fastblog/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/fastblog/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/fastblog/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>A quick blog with a bunch of random stuff.</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/manikyabard" title="manikyabard"><svg class="svg-icon grey"><use xlink:href="/fastblog/assets/minima-social-icons.svg#github"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
