@@ -99,6 +99,7 @@ window.onload = wrap_img;
 <li class="toc-entry toc-h2"><a href="#Introduction">Introduction </a></li>
 <li class="toc-entry toc-h2"><a href="#A-peek-in-to-the-Dataset">A peek in to the Dataset </a></li>
 <li class="toc-entry toc-h2"><a href="#Architecture">Architecture </a></li>
+<li class="toc-entry toc-h2"><a href="#Environment-and-Cluster-details">Environment and Cluster details </a></li>
 <li class="toc-entry toc-h2"><a href="#Importing-required-libraries">Importing required libraries </a></li>
 <li class="toc-entry toc-h2"><a href="#Defining-Helper-Functions">Defining Helper Functions </a></li>
 <li class="toc-entry toc-h2"><a href="#Training-the-model">Training the model </a></li>
@@ -155,7 +156,15 @@ Apache Spark is a unified analytical engine used for big data and machine learni
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>A sample of our dataset is shown above. It consists of 12 unique columns:</p>
+<p>The data is obtained from AWS CloudWatch, and is present in parquet format.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>A sample of our dataset is shown below. It consists of 12 unique columns:</p>
 <ul>
 <li>Index: The basic numbering of all the values from 0</li>
 <li>Provider: The source from where the resources are provided, in this case we use that of Amazon Web Services</li>
@@ -211,6 +220,39 @@ Apache Spark is a unified analytical engine used for big data and machine learni
 <p>In the <strong>Production Phase</strong>, we use structured streaming to get the latest data, and use it with our model. This can be used to further train the model, or make future forecasts.</p>
 <p>Inside spark, we train the model, and make plots to visualize the forecasts.</p>
 <p>After this, the forecasts are finally stored</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Environment-and-Cluster-details">
+<a class="anchor" href="#Environment-and-Cluster-details" aria-hidden="true"><span class="octicon octicon-link"></span></a>Environment and Cluster details<a class="anchor-link" href="#Environment-and-Cluster-details"> </a>
+</h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The project has been done on Azure Databricks, which allows us to set up Apache Spark™ environment in minutes, autoscale and collaborate on shared projects in an interactive workspace. Azure Databricks even supports Python, Scala, sql etc.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><img src="/fastblog/images/copied_from_nb/my_icons/cluster.png" alt=""></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The cluster contains 1 Driver, and 2 Workers as shown above.</p>
 
 </div>
 </div>
