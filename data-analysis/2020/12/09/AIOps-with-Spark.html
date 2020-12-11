@@ -77,7 +77,7 @@ window.onload = wrap_img;
        • <span class="read-time" title="Estimated read time">
     
     
-      11 min read
+      12 min read
     
 </span></p>
 
@@ -98,7 +98,12 @@ window.onload = wrap_img;
 <li class="toc-entry toc-h2"><a href="#The-Team">The Team </a></li>
 <li class="toc-entry toc-h2"><a href="#Introduction">Introduction </a></li>
 <li class="toc-entry toc-h2"><a href="#A-peek-in-to-the-Dataset">A peek in to the Dataset </a></li>
-<li class="toc-entry toc-h2"><a href="#Architecture">Architecture </a></li>
+<li class="toc-entry toc-h2"><a href="#Architecture">Architecture </a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#Overview">Overview </a></li>
+<li class="toc-entry toc-h3"><a href="#DBFS">DBFS </a></li>
+</ul>
+</li>
 <li class="toc-entry toc-h2"><a href="#Environment-and-Cluster-details">Environment and Cluster details </a></li>
 <li class="toc-entry toc-h2"><a href="#Importing-required-libraries">Importing required libraries </a></li>
 <li class="toc-entry toc-h2"><a href="#Defining-Helper-Functions">Defining Helper Functions </a></li>
@@ -139,7 +144,7 @@ Rishab Kashyap - PES2201800065</p>
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Everyday people perform various computational processes which demand a lot of online resources throughout the day, month or the year. The amount of data produced per day is massive, and it is important to know the exact usage of resources through this time to make it available to the users as an when required, thereby improving the efficiency.
 In the following project, we make use of certain dev-ops output data and analyze the variation in the performance throughout the day by performing a time series analysis on the data using spark RDDs.
-Apache Spark is a unified analytical engine used for big data and machine learning purposes developed at UC Berkeley in 2009. They also founded Databricks from Azure in 2013, which we use here to execute our program</p>
+Apache Spark is a unified analytical engine used for big data and machine learning purposes developed at UC Berkeley in 2009. They also founded Databricks from Azure in 2013, which we use here to execute our program.</p>
 
 </div>
 </div>
@@ -175,9 +180,9 @@ Apache Spark is a unified analytical engine used for big data and machine learni
 <li>Asset_ID: The unique identity given to the asset that complements the resource.</li>
 <li>Timestamp: This shows the time of arrival of dispatched resources.</li>
 <li>Value: The amount of it that has been provided.</li>
-<li>Unit: All of them are measured in terms of bytes.</li>
-<li>Metric_Name: Identifies the metric given to.</li>
-<li>Statistic: Denotes how the data was collected, for eg. (count, sum, average etc.)</li>
+<li>Unit: The unit of the number present in value column, for eg. (Percent, Count, Byte etc.).</li>
+<li>Metric_Name: Identifies the metric for which a particular value is mentioned.</li>
+<li>Statistic: Denotes how the data was collected, for eg. (count, sum, average etc.).</li>
 </ul>
 
 </div>
@@ -203,6 +208,15 @@ Apache Spark is a unified analytical engine used for big data and machine learni
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Overview">
+<a class="anchor" href="#Overview" aria-hidden="true"><span class="octicon octicon-link"></span></a>Overview<a class="anchor-link" href="#Overview"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <p><img src="/fastblog/images/copied_from_nb/my_icons/BigDataProject2.png" alt=""></p>
 
 </div>
@@ -220,6 +234,23 @@ Apache Spark is a unified analytical engine used for big data and machine learni
 <p>In the <strong>Production Phase</strong>, we use structured streaming to get the latest data, and use it with our model. This can be used to further train the model, or make future forecasts.</p>
 <p>Inside spark, we train the model, and make plots to visualize the forecasts.</p>
 <p>After this, the forecasts are finally stored</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="DBFS">
+<a class="anchor" href="#DBFS" aria-hidden="true"><span class="octicon octicon-link"></span></a>DBFS<a class="anchor-link" href="#DBFS"> </a>
+</h3>
+<p>Databricks File System (DBFS) is a distributed file system mounted into an Azure Databricks workspace and available on Azure Databricks clusters. DBFS is an abstraction on top of scalable object storage and offers the following benefits:</p>
+<ul>
+<li>Allows you to mount storage objects so that you can seamlessly access data without requiring credentials.</li>
+<li>Allows you to interact with object storage using directory and file semantics instead of storage URLs.</li>
+<li>Persists files to object storage, so you won’t lose data after you terminate a cluster.</li>
+</ul>
+<p>As mentioned above, we have used dbfs for initially storing our files.</p>
 
 </div>
 </div>
